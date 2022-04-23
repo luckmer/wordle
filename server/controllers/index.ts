@@ -1,4 +1,4 @@
-import {wordCheck,wordsOptions } from "../config/wordsConfig"
+import {wordCheck,wordsOptions } from "../config"
 import axios from 'axios'
 
 export const getWordsMatch = async (word:string)=>{
