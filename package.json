@@ -10,5 +10,9 @@
   "devDependencies": {
     "typescript": "^4.5.4",
     "vite": "^2.9.5"
+  },
+  "dependencies": {
+    "axios": "^0.26.1",
+    "dotenv": "^16.0.0"
   }
 }
