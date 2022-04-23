@@ -21,6 +21,6 @@ return {
     headers: {
         'x-rapidapi-host': 'twinword-word-graph-dictionary.p.rapidapi.com',
         'x-rapidapi-key': key as unknown as string
+        }
     }
-}
 }
