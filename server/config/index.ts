@@ -9,7 +9,7 @@ export const wordsOptions:AxiosRequestConfig = {
     params: {count: '5' , wordLength:'5'},
     headers: {
         'X-RapidAPI-Host': 'random-words5.p.rapidapi.com',
-        'X-RapidAPI-Key': key as unknown as string
+        'X-RapidAPI-Key': key
     }
 };
 
@@ -20,7 +20,7 @@ return {
     params: {entry: word},
     headers: {
         'x-rapidapi-host': 'twinword-word-graph-dictionary.p.rapidapi.com',
-        'x-rapidapi-key': key as unknown as string
+        'x-rapidapi-key': key
         }
     }
 }
