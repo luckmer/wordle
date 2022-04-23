@@ -4,7 +4,8 @@ import {wordsOptions} from "../config/wordsConfig";
 const  getWordsResponse = async ()=>{
     try{
         const responseJson = await axios.request(wordsOptions)
-        return  await responseJson.data[0]
+        return  await responseJson.data
+
     }catch (error){
         console.error(`couldn't get words , ${error}`)
     }

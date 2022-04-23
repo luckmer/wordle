@@ -1,5 +1,7 @@
 import  {AxiosRequestConfig} from 'axios'
-const key = process.env.API_KEY
+import API_KEY from "./api.json"
+
+const key = API_KEY
 
 export const wordsOptions:AxiosRequestConfig = {
     method: 'GET',
