@@ -79,7 +79,7 @@ body{
   font-weight: bold;
   border: 0;
   padding: 0;
-  margin: 0 6px 0 0;
+  margin: 0 3px 0 3px;
   height: 58px;
   border-radius: 4px;
   cursor: pointer;
@@ -96,9 +96,16 @@ body{
 .row{
   display: flex;
   width:  100%;
-  margin: 0 auto 8px;
-  touch-action: manipulation;
+   touch-action: manipulation;
+
+  justify-content: center;
+  align-items: center;
 }
+
+.row-margin {
+  margin: 0 auto 8px;
+}
+
 .spacer{
   flex: 0.5;
 }

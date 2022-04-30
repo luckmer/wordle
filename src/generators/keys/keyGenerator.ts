@@ -13,7 +13,7 @@ class keyGeneratorClass extends  keyActionsClass {
         const button = document.createElement('button')
         button.classList.add(`button`)
         if(key === 'ENTER' || key === '«')button.classList.add("action")
-        button.addEventListener('click', ()=>{})
+        button.addEventListener('click', this.handleClick)
         button.textContent =key
         row.appendChild(button)
     }
@@ -22,7 +22,8 @@ class keyGeneratorClass extends  keyActionsClass {
         keys.forEach(arrayOfKeys=>{
             const row = document.createElement('div')
             row.classList.add("row");
-            arrayOfKeys.forEach(key=>{
+            row.classList.add("row-margin");
+            arrayOfKeys.forEach((key:string)=>{
                 switch (key){
                     case 'spacer':{
                         this.spacerCreator(row)
@@ -41,6 +42,5 @@ class keyGeneratorClass extends  keyActionsClass {
 }
 
 const keyGenerator = new keyGeneratorClass()
-
 
 export default keyGenerator

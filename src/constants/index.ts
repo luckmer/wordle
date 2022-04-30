@@ -3,7 +3,7 @@ export const keys = [
     ['spacer','A','S','D','F','G','H','J','K','L','spacer'],
     ['ENTER','Z','X','C','V','B','N','M','«',],
 ]
-export const guessRows = [
+export const guessRowsPanel = [
     ['', '', '', '', ''],
     ['', '', '', '', ''],
     ['', '', '', '', ''],
