@@ -3,14 +3,14 @@ import keyActionsClass from "./keyActions"
 const buttonsContainer = document.querySelector('.row_container') as unknown as Element;
 
 class keyGeneratorClass extends  keyActionsClass {
-    spacerCreator = (row:Element)=>{
-        const div = document.createElement('div')
+    generateDiv = (row:Element)=>{
+        const div:HTMLDivElement = document.createElement('div')
         div.classList.add("spacer")
         row.appendChild(div)
     }
 
-    buttonCreator = (key:string ,row:Element) =>{
-        const button = document.createElement('button')
+    generateButton = (key:string ,row:Element) =>{
+        const button:HTMLButtonElement = document.createElement('button')
         button.classList.add(`button`)
         if(key === 'ENTER' || key === '«')button.classList.add("action")
         button.addEventListener('click', this.handleClick)
@@ -19,22 +19,21 @@ class keyGeneratorClass extends  keyActionsClass {
     }
 
     keyGenerator = ()=>{
-        keys.forEach(arrayOfKeys=>{
-            const row = document.createElement('div')
+        keys.forEach((arrayOfKeys:string[])=>{
+            const row:HTMLDivElement = document.createElement('div')
             row.classList.add("row");
             row.classList.add("row-margin");
             arrayOfKeys.forEach((key:string)=>{
                 switch (key){
                     case 'spacer':{
-                        this.spacerCreator(row)
+                        this.generateDiv(row)
                         break
                     }
                     default:{
-                        this.buttonCreator(key,row)
+                        this.generateButton(key,row)
                         break
                     }
                 }
-
             })
             buttonsContainer.append(row)
         })
