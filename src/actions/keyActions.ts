@@ -36,7 +36,6 @@ class keyActionsClass {
         globalData.guessRowsPanel[globalData.rowIndex][globalData.gameRowIndex] = '';
     }
 
-
     handleSubmit = ()=>{
         const currentRowPanel = globalData.guessRowsPanel[globalData.rowIndex].includes('')
         console.log(currentRowPanel)
