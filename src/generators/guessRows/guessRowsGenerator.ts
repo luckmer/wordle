@@ -1,36 +1,44 @@
-const boardContainer = document.querySelector('.board') as unknown as Element;
+const boardContainer = document.querySelector(".board") as unknown as Element;
 import {globalData} from "../../constants";
 
 class guessRowsGenerator {
+    generatePTag = (
+      div: HTMLDivElement,
+      title: string,
+      gameRowIndex: number,
+      rowIndex: number
+    ) => {
+        const p: HTMLDivElement = document.createElement("p");
+        p.classList.add("tile");
+        p.setAttribute("id", `${rowIndex}.${gameRowIndex}`);
+        p.textContent = title;
+        div.appendChild(p);
+    };
 
-    generatePTag = (div:HTMLDivElement,title:string , gameRowIndex:number ,rowIndex:number) => {
-        const p:HTMLDivElement = document.createElement('p')
-        p.classList.add('tile')
-        p.setAttribute('id' ,`${rowIndex}.${gameRowIndex}`)
-        p.textContent = title
-        div.appendChild(p)
-    }
-
-     generateDiv = ( gameRow:HTMLDivElement,title:string, gameRowIndex:number, rowIndex:number) => {
-        const div:HTMLDivElement = document.createElement('div')
-         div.classList.add("row")
-         this.generatePTag(div,title ,gameRowIndex ,rowIndex)
-        gameRow.appendChild(div)
-    }
+    generateDiv = (
+      gameRow: HTMLDivElement,
+      title: string,
+      gameRowIndex: number,
+      rowIndex: number
+    ) => {
+        const div: HTMLDivElement = document.createElement("div");
+        div.classList.add("row");
+        this.generatePTag(div, title, gameRowIndex, rowIndex);
+        gameRow.appendChild(div);
+    };
 
     generateRows = () => {
-        globalData.guessRowsPanel.forEach((row:string[] , rowIndex:number)=>{
-            const gameRow:HTMLDivElement = document.createElement('div');
-            gameRow.classList.add("game-row")
-            row.forEach((title:string, gameRowIndex:number)=>{
-                this.generateDiv(gameRow, title, gameRowIndex,rowIndex)
-            })
-            boardContainer.appendChild(gameRow)
-        })
-    }
-
+        globalData.guessRowsPanel.forEach((row: string[], rowIndex: number) => {
+            const gameRow: HTMLDivElement = document.createElement("div");
+            gameRow.classList.add("game-row");
+            row.forEach((title: string, gameRowIndex: number) => {
+                this.generateDiv(gameRow, title, gameRowIndex, rowIndex);
+            });
+            boardContainer.appendChild(gameRow);
+        });
+    };
 }
 
-const guessRows = new guessRowsGenerator()
+const guessRows = new guessRowsGenerator();
 
-export default  guessRows
+export default guessRows;

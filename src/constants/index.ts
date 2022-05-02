@@ -1,8 +1,9 @@
 export class globalData {
-    public  static rowIndex = 0
-    public static  gameRowIndex = 0
-    public static  gameOver = false
-    public  static   guessRowsPanel = [
+    public static rowIndex = 0
+    public static gameRowIndex = 0
+    public static gameOver = false
+    public static secretWord = ''
+    public static guessRowsPanel = [
         ['', '', '', '', ''],
         ['', '', '', '', ''],
         ['', '', '', '', ''],
@@ -11,9 +12,9 @@ export class globalData {
         ['', '', '', '', '']
     ]
     public static keys = [
-        ['Q','W','E','R','T','Y','U','I','O','P'],
-        ['spacer','A','S','D','F','G','H','J','K','L','spacer'],
-        ['ENTER','Z','X','C','V','B','N','M','«',],
+        ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+        ['spacer', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'spacer'],
+        ['ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '«',],
     ]
 
 }
