@@ -10,6 +10,7 @@ class keyActionsClass extends wordColorsClass {
         const letter = (e.target as HTMLTextAreaElement).textContent as string;
         switch (letter) {
             case  '«' : {
+                ``
                 this.handleClear();
                 break;
             }
@@ -44,21 +45,16 @@ class keyActionsClass extends wordColorsClass {
     }
 
     handleSubmit = () => {
-        try {
-            const currentRowPanel = globalData.guessRowsPanel[globalData.rowIndex].includes('')
-            if (currentRowPanel) return
-            // const secretWord = globalData.secretWord
-            const word = globalData.guessRowsPanel[globalData.rowIndex].join("")
-            // const word = globalData.guessRowsPanel[globalData.rowIndex].join("")
+        const currentRowPanel = globalData.guessRowsPanel[globalData.rowIndex > 5 ? 5 : globalData.rowIndex].includes('')
+        if (currentRowPanel) return
+        // const secretWord = globalData.secretWord
+        const word = globalData.guessRowsPanel[globalData.rowIndex > 5 ? 5 : globalData.rowIndex].join("")
+        // const word = globalData.guessRowsPanel[globalData.rowIndex].join("")
 
-
-            if (!dictionary.includes(word)) return
-            if (globalData.rowIndex < 5) {
-                globalData.rowIndex++
-                globalData.gameRowIndex = 0
-            }
-        } catch (err) {
-            console.error(err)
+        if (!dictionary.includes(word)) return
+        if (globalData.rowIndex < 5) {
+            globalData.rowIndex++
+            globalData.gameRowIndex = 0
         }
 
     }
