@@ -47,12 +47,10 @@ class tileAnimationsClass {
         const gameRow = document.getElementById(`${index}`) as HTMLElement
         const rowCollection = gameRow.querySelectorAll('.row') as unknown as Array<HTMLElement>
         const wordsPerRow = Array.from(rowCollection).map((el: HTMLElement) => el.childNodes[0].textContent).join("")
+        if (wordsPerRow === '') return
 
         const wordsWithNoCopies = removeDuplicate(wordsPerRow)
-
         const secretWord = globalData.secretWord
-
-       if(wordsPerRow === '')return
 
         rowCollection.forEach((el: HTMLElement, i: number) => {
             if (secretWord[i] === wordsPerRow[i]) {
