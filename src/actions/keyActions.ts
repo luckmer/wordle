@@ -3,7 +3,6 @@ import wordColorsClass from "../tileAnimations/tileAnimations";
 import dictionary from "../../json/dictionary.json"
 import localStoragePanel from "../localStorage/localStorage";
 import randomWord from "../generators/randomWord/randomWordGenerator";
-import tileAnimationsClass from "../tileAnimations/tileAnimations";
 import {tileAnimation} from "../tileAnimations/tileAnimations";
 
 
@@ -58,22 +57,15 @@ class keyActionsClass extends wordColorsClass {
     }
 
     handleSubmit = () => {
-        // const currentRowPanel = globalData.guessRowsPanel[globalData.rowIndex > 5 ? 5 : globalData.rowIndex].includes('')
-        // if (currentRowPanel) return
-        // const secretWord = globalData.secretWord
+        const currentRowPanel = globalData.guessRowsPanel[globalData.rowIndex > 5 ? 5 : globalData.rowIndex].includes('')
         const word = globalData.guessRowsPanel[globalData.rowIndex > 5 ? 5 : globalData.rowIndex].join("")
 
-        if (!dictionary.includes(word)) {
+        if (!dictionary.includes(word) || currentRowPanel) {
             const shakeRow = document.getElementById(`${globalData.rowIndex}`) as HTMLElement
             tileAnimation.shakeRow(shakeRow)
-
-            // tileAnimations.shakeTile(shakeRow)
-            // TODO add alert
-            // shake current row
+            tileAnimation.createErrorAlert(currentRowPanel ? 'Not enough letters' : 'Not in word list')
             return
         }
-
-
 
 
         if (globalData.rowIndex < 5) {

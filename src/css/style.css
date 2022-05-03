@@ -7,7 +7,7 @@ body, html{
   margin: 0;
   box-sizing: border-box;
   height:100vh;
-
+  overflow-y: hidden;
 }
 main{
   height: 100%;
@@ -148,9 +148,42 @@ h1{
   align-items: center;
 }
 
+
 .shake {
   animation: shake 250ms ease-in-out;
 }
+#game-toaster{
+  z-index: 1000;
+}
+
+.toaster{
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  pointer-events: none;
+  width: fit-content;
+}
+
+.alert {
+  pointer-events: none;
+  background-color: hsl(204, 7%, 85%);
+  padding: .75em;
+  border-radius: .25em;
+  opacity: 1;
+  transition: opacity 500ms ease-in-out;
+  margin-bottom: .5em;
+  width: fit-content;
+}
+
+.alert:last-child {
+  margin-bottom: 0;
+}
+
+.alert.hide {
+  opacity: 0;
+}
+
 @keyframes shake {
   10% {
     transform: translateX(-2%);
