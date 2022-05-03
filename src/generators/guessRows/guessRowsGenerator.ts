@@ -1,3 +1,5 @@
+import {tileAnimation} from "../../tileAnimations/tileAnimations";
+
 const boardContainer = document.querySelector(".board") as unknown as Element;
 import {globalData} from "../../constants";
 
@@ -25,7 +27,6 @@ class guessRowsGenerator {
         const div: HTMLDivElement = document.createElement("div");
 
         div.classList.add("row");
-
         this.generatePTag(div, title, gameRowIndex, rowIndex);
         gameRow.appendChild(div);
     };
@@ -37,6 +38,7 @@ class guessRowsGenerator {
             gameRow.setAttribute('id', `${rowIndex}`)
             row.forEach((title: string, gameRowIndex: number) => this.generateDiv(gameRow, title, gameRowIndex, rowIndex));
             boardContainer.appendChild(gameRow);
+            tileAnimation.setTileColor(rowIndex);
         });
     };
 }

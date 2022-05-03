@@ -157,7 +157,6 @@ h1 {
     align-items: center;
 }
 
-
 .shake {
     animation: shake 250ms ease-in-out;
 }
@@ -177,10 +176,12 @@ h1 {
 
 .alert {
     pointer-events: none;
-    background-color: hsl(204, 7%, 85%);
-    padding: .75em;
+    padding: 1em;
+    background: black;
+    color: hsl(204, 7%, 85%);
     border-radius: .25em;
     opacity: 1;
+    font-weight: bold;
     transition: opacity 500ms ease-in-out;
     margin-bottom: .5em;
     width: fit-content;

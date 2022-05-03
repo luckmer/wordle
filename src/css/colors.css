@@ -4,7 +4,7 @@
 }
 
 .correct p {
-    border: 2px solid #6aaa64;
+    border: 2px solid #6aaa64 !important;
 }
 
 
@@ -13,7 +13,7 @@
 }
 
 .present p {
-    border: 2px solid #c9b458;
+    border: 2px solid #c9b458 !important;
 }
 
 
@@ -22,7 +22,7 @@
 }
 
 .primary p {
-    border: 2px solid #787c7e;
+    border: 2px solid #787c7e !important;
 }
 
 
@@ -31,7 +31,7 @@
 }
 
 .darkCorrect p {
-    border: 2px solid #538d4e;
+    border: 2px solid #538d4e !important;
 }
 
 

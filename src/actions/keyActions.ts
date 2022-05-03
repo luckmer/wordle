@@ -5,6 +5,7 @@ import localStoragePanel from "../localStorage/localStorage";
 import randomWord from "../generators/randomWord/randomWordGenerator";
 import {tileAnimation} from "../tileAnimations/tileAnimations";
 
+
 class keyActionsClass extends wordColorsClass {
 
     handleClickRoot = (e: MouseEvent) => {
@@ -64,12 +65,6 @@ class keyActionsClass extends wordColorsClass {
         const word = rowData.join("")
         const secretWord = globalData.secretWord
 
-        console.log(word, secretWord)
-        if (word === secretWord) {
-            tileAnimation.createErrorAlert('game over')
-            return
-        }
-
         if (!dictionary.includes(word) || currentRowPanel) {
             const shakeRow = document.getElementById(`${globalData.rowIndex}`) as HTMLElement
             tileAnimation.shakeRow(shakeRow)
@@ -77,7 +72,16 @@ class keyActionsClass extends wordColorsClass {
             return
         }
 
+
+
+        if (word === secretWord) {
+            tileAnimation.setTileColor(globalData.rowIndex)
+            tileAnimation.createErrorAlert('game over')
+            return
+        }
+
         if (globalData.rowIndex < 5) {
+            tileAnimation.setTileColor(globalData.rowIndex)
             globalData.rowIndex++
             globalData.gameRowIndex = 0
         }

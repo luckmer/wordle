@@ -1,3 +1,6 @@
+import {globalData} from "../constants";
+import {removeDuplicate} from "../utils";
+
 const toaster = document.querySelector('.toaster') as Element
 
 class tileAnimationsClass {
@@ -19,7 +22,7 @@ class tileAnimationsClass {
         )
     }
 
-    createErrorAlert = (message: string, duration = 500) => {
+    createErrorAlert = (message: string, duration = 750) => {
         const alert = document.createElement("div")
         alert.textContent = message
         alert.classList.add("alert")
@@ -40,7 +43,23 @@ class tileAnimationsClass {
 
     }
 
-    setTileColor = () => {
+    setTileColor = (index: number) => {
+        const gameRow = document.getElementById(`${index}`) as HTMLElement
+        const rowCollection = gameRow.querySelectorAll('.row') as unknown as Array<HTMLElement>
+        const wordsPerRow = Array.from(rowCollection).map((el: HTMLElement) => el.childNodes[0].textContent).join("")
+
+        const wordsWithNoCopies = removeDuplicate(wordsPerRow)
+
+        const secretWord = globalData.secretWord
+        rowCollection.forEach((el: HTMLElement, i: number) => {
+            if (secretWord[i] === wordsPerRow[i]) {
+                el.classList.add("correct")
+            } else if (secretWord.includes(wordsWithNoCopies[i])) {
+                el.classList.add("present")
+            } else {
+                el.classList.add("primary")
+            }
+        })
 
     }
 }
