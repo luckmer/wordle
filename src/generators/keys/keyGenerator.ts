@@ -4,6 +4,7 @@ import keyActionsClass from "../../actions/keyActions"
 const buttonsContainer = document.querySelector('.row_container') as unknown as Element;
 
 class keyGeneratorClass extends keyActionsClass {
+
     generateDiv = (row: Element) => {
         const div: HTMLDivElement = document.createElement('div')
         div.classList.add("spacer")

@@ -9,6 +9,7 @@ class tileAnimationsClass {
     removeBlackBorder = (tile: Element) => {
         tile.classList.remove('black_border')
     }
+
     changeScale = (tile: Element) => {
         tile.classList.add("size")
         tile.addEventListener(
