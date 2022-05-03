@@ -10,6 +10,7 @@ class guessRowsGenerator {
     ) => {
         const p: HTMLDivElement = document.createElement("p");
         p.classList.add("tile");
+        title !== '' && p.classList.add("black_border")
         p.setAttribute("id", `${rowIndex}.${gameRowIndex}`);
         p.textContent = title;
         div.appendChild(p);
@@ -22,7 +23,9 @@ class guessRowsGenerator {
       rowIndex: number
     ) => {
         const div: HTMLDivElement = document.createElement("div");
+
         div.classList.add("row");
+
         this.generatePTag(div, title, gameRowIndex, rowIndex);
         gameRow.appendChild(div);
     };

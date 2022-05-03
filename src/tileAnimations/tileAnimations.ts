@@ -2,6 +2,21 @@ const toaster = document.querySelector('.toaster') as Element
 
 class tileAnimationsClass {
 
+    setBlackBorder = (tile: Element) => {
+        tile.classList.add('black_border')
+    }
+
+    removeBlackBorder = (tile: Element) => {
+        tile.classList.remove('black_border')
+    }
+    changeScale = (tile: Element) => {
+        tile.classList.add("size")
+        tile.addEventListener(
+          "animationend",
+          () => tile.classList.remove("size"),
+          {once: true}
+        )
+    }
 
     createErrorAlert = (message: string, duration = 500) => {
         const alert = document.createElement("div")
@@ -23,7 +38,6 @@ class tileAnimationsClass {
         )
 
     }
-
 
     setTileColor = () => {
 

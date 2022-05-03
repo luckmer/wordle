@@ -5,7 +5,6 @@ import localStoragePanel from "../localStorage/localStorage";
 import randomWord from "../generators/randomWord/randomWordGenerator";
 import {tileAnimation} from "../tileAnimations/tileAnimations";
 
-
 class keyActionsClass extends wordColorsClass {
 
     handleClickRoot = (e: MouseEvent) => {
@@ -32,6 +31,8 @@ class keyActionsClass extends wordColorsClass {
         const tile = document.getElementById(`${globalData.rowIndex}.${globalData.gameRowIndex}`) as Element;
         tile.textContent = letter;
         globalData.guessRowsPanel[globalData.rowIndex][globalData.gameRowIndex] = letter;
+        tileAnimation.setBlackBorder(tile)
+        tileAnimation.changeScale(tile)
         globalData.gameRowIndex++
         localStoragePanel.saveArrayOfWords()
 
@@ -43,6 +44,7 @@ class keyActionsClass extends wordColorsClass {
         const tile = document.getElementById(`${globalData.rowIndex}.${globalData.gameRowIndex}`) as Element;
         tile.textContent = '';
         globalData.guessRowsPanel[globalData.rowIndex][globalData.gameRowIndex] = '';
+        tileAnimation.removeBlackBorder(tile)
         localStoragePanel.saveArrayOfWords()
     }
 
@@ -57,8 +59,16 @@ class keyActionsClass extends wordColorsClass {
     }
 
     handleSubmit = () => {
-        const currentRowPanel = globalData.guessRowsPanel[globalData.rowIndex > 5 ? 5 : globalData.rowIndex].includes('')
-        const word = globalData.guessRowsPanel[globalData.rowIndex > 5 ? 5 : globalData.rowIndex].join("")
+        const rowData = globalData.guessRowsPanel[globalData.rowIndex > 5 ? 5 : globalData.rowIndex]
+        const currentRowPanel = rowData.includes('')
+        const word = rowData.join("")
+        const secretWord = globalData.secretWord
+
+        console.log(word, secretWord)
+        if (word === secretWord) {
+            tileAnimation.createErrorAlert('game over')
+            return
+        }
 
         if (!dictionary.includes(word) || currentRowPanel) {
             const shakeRow = document.getElementById(`${globalData.rowIndex}`) as HTMLElement
@@ -66,7 +76,6 @@ class keyActionsClass extends wordColorsClass {
             tileAnimation.createErrorAlert(currentRowPanel ? 'Not enough letters' : 'Not in word list')
             return
         }
-
 
         if (globalData.rowIndex < 5) {
             globalData.rowIndex++
