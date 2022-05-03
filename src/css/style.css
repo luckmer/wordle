@@ -147,3 +147,58 @@ h1{
   flex-direction: column;
   align-items: center;
 }
+
+.shake {
+  animation: shake 250ms ease-in-out;
+}
+@keyframes shake {
+  10% {
+    transform: translateX(-2%);
+  }
+
+  30% {
+    transform: translateX(2%);
+  }
+
+  50% {
+    transform: translateX(-2.5%);
+  }
+
+  70% {
+    transform: translateX(2.5%);
+  }
+
+  90% {
+    transform: translateX(-2%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes dance {
+  20% {
+    transform: translateY(-50%);
+  }
+
+  40% {
+    transform: translateY(5%);
+  }
+
+  60% {
+    transform: translateY(-25%);
+  }
+
+  80% {
+    transform: translateY(2.5%);
+  }
+
+  90% {
+    transform: translateY(-5%);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}

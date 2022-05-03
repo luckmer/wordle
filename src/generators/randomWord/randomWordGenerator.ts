@@ -3,9 +3,13 @@ import {globalData} from "../../constants";
 
 class randomWordGenerator {
     readonly wordIndex = Math.floor(Math.random() * words.length)
+
+    returnRandomWord = ()=>  words[this.wordIndex]
     generateRandomWord = () => {
-        globalData.secretWord = words[this.wordIndex]
+         globalData.secretWord =this.returnRandomWord()
     }
+
+
 }
 
 const randomWord = new randomWordGenerator()

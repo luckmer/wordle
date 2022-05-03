@@ -31,6 +31,7 @@ class guessRowsGenerator {
         globalData.guessRowsPanel.forEach((row: string[], rowIndex: number) => {
             const gameRow: HTMLDivElement = document.createElement("div");
             gameRow.classList.add("game-row");
+            gameRow.setAttribute('id' , `${rowIndex}`)
             row.forEach((title: string, gameRowIndex: number) => {
                 this.generateDiv(gameRow, title, gameRowIndex, rowIndex);
             });
