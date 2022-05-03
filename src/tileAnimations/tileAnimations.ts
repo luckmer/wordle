@@ -47,18 +47,19 @@ class tileAnimationsClass {
         const gameRow = document.getElementById(`${index}`) as HTMLElement
         const rowCollection = gameRow.querySelectorAll('.row') as unknown as Array<HTMLElement>
         const wordsPerRow = Array.from(rowCollection).map((el: HTMLElement) => el.childNodes[0].textContent).join("")
-        if (wordsPerRow === '') return
-
+        if (wordsPerRow === '') return;
         const wordsWithNoCopies = removeDuplicate(wordsPerRow)
         const secretWord = globalData.secretWord
 
         rowCollection.forEach((el: HTMLElement, i: number) => {
-            if (secretWord[i] === wordsPerRow[i]) {
-                el.classList.add("correct")
-            } else if (secretWord.includes(wordsWithNoCopies[i])) {
-                el.classList.add("present")
-            } else {
-                el.classList.add("primary")
+            if (wordsPerRow.length === 5) {
+                if (secretWord[i] === wordsPerRow[i]) {
+                    el.classList.add("correct")
+                } else if (secretWord.includes(wordsWithNoCopies[i])) {
+                    el.classList.add("present")
+                } else {
+                    el.classList.add("primary")
+                }
             }
         })
 
