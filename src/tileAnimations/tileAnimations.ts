@@ -51,6 +51,9 @@ class tileAnimationsClass {
         const wordsWithNoCopies = removeDuplicate(wordsPerRow)
 
         const secretWord = globalData.secretWord
+
+       if(wordsPerRow === '')return
+
         rowCollection.forEach((el: HTMLElement, i: number) => {
             if (secretWord[i] === wordsPerRow[i]) {
                 el.classList.add("correct")
