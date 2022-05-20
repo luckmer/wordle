@@ -1,16 +1,15 @@
-import words from "../../../json/words.json"
-import {globalData} from "../../constants";
+import words from "../../../json/words.json";
+import { globalData } from "../../constants";
 
 class randomWordGenerator {
-    readonly wordIndex = Math.floor(Math.random() * words.length)
+  readonly wordIndex = Math.floor(Math.random() * words.length);
 
-    returnRandomWord = () => words[this.wordIndex]
-    generateRandomWord = () => {
-        globalData.secretWord = this.returnRandomWord()
-    }
-
+  returnRandomWord = () => words[this.wordIndex];
+  generateRandomWord = () => {
+    globalData.secretWord = this.returnRandomWord();
+  };
 }
 
-const randomWord = new randomWordGenerator()
+const randomWord = new randomWordGenerator();
 
-export default randomWord
+export default randomWord;

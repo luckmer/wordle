@@ -1,64 +1,55 @@
-
 .correct {
-    background: #6aaa64;
+  background: #6aaa64;
 }
 
 .correct p {
-    border: 2px solid #6aaa64 !important;
+  border: 2px solid #6aaa64 !important;
 }
 
-
 .present {
-    background: #c9b458;
+  background: #c9b458;
 }
 
 .present p {
-    border: 2px solid #c9b458 !important;
+  border: 2px solid #c9b458 !important;
 }
 
-
 .primary {
-    background: #787c7e;
+  background: #787c7e;
 }
 
 .primary p {
-    border: 2px solid #787c7e !important;
+  border: 2px solid #787c7e !important;
 }
 
-
 .darkCorrect {
-    background: #538d4e;
+  background: #538d4e;
 }
 
 .darkCorrect p {
-    border: 2px solid #538d4e !important;
+  border: 2px solid #538d4e !important;
 }
 
-
 .darkPresent {
-    background: #b59f3b;
+  background: #b59f3b;
 }
 
 .darkPresent p {
-    border: 2px solid #b59f3b;
+  border: 2px solid #b59f3b;
 }
 
-
 .Blindcorrect {
-    background: #f5793a;
+  background: #f5793a;
 }
 
 .Blindcorrect p {
-    border: 2px solid #f5793a;
+  border: 2px solid #f5793a;
 }
 
-
 .blindPresent {
-    background: #85c0f9;
+  background: #85c0f9;
 }
 
 .blindPresent p {
-    border: 2px solid #85c0f9;
+  border: 2px solid #85c0f9;
 }
-
-
