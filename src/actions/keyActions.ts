@@ -62,15 +62,11 @@ class keyActionsClass extends wordColorsClass {
   };
 
   handleSubmit = () => {
-    tileAnimation.rotateTile(globalData.rowIndex);
-    tileAnimation.setTileColor(globalData.rowIndex);
-    localStoragePanel.saveArrayOfWords();
-
     if (globalData.gameOver) {
       tileAnimation.createErrorAlert("game over");
+      localStoragePanel.saveArrayOfWords();
       return;
     }
-
     const rowData =
       globalData.guessRowsPanel[
         globalData.rowIndex > 5 ? 5 : globalData.rowIndex
@@ -91,13 +87,18 @@ class keyActionsClass extends wordColorsClass {
     }
 
     if (globalData.rowIndex === 5 && word !== secretWord) {
+      tileAnimation.rotateTile(globalData.rowIndex);
+      tileAnimation.setTileColor(globalData.rowIndex);
       globalData.gameOver = true;
+      localStoragePanel.saveArrayOfWords();
       return;
     }
 
     if (word === secretWord) {
+      tileAnimation.setTileColor(globalData.rowIndex);
       tileAnimation.createErrorAlert("game over");
       globalData.gameOver = true;
+      localStoragePanel.saveArrayOfWords();
       return;
     }
 
@@ -105,6 +106,9 @@ class keyActionsClass extends wordColorsClass {
       globalData.rowIndex++;
       globalData.gameRowIndex = 0;
     }
+    tileAnimation.rotateTile(globalData.rowIndex);
+    tileAnimation.setTileColor(globalData.rowIndex);
+    localStoragePanel.saveArrayOfWords();
   };
 }
 
