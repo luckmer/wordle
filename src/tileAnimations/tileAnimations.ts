@@ -37,7 +37,9 @@ class tileAnimationsClass {
     });
   };
 
-  rotateTile = () => {};
+  rotateTile = (index: number) => {
+    console.log(index);
+  };
 
   setTileColor = (index: number) => {
     const gameRow = document.getElementById(`${index}`) as HTMLElement;
