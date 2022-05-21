@@ -26,7 +26,7 @@ class keyActionsClass extends wordColorsClass {
   };
 
   handleClick = (letter: string) => {
-    if (globalData.gameRowIndex >= 5) return;
+    if (globalData.gameRowIndex >= 5 || globalData.gameOver) return;
     const tile = document.getElementById(
       `${globalData.rowIndex}.${globalData.gameRowIndex}`
     ) as Element;
@@ -40,7 +40,7 @@ class keyActionsClass extends wordColorsClass {
   };
 
   handleClear = () => {
-    if (globalData.gameRowIndex <= 0) return;
+    if (globalData.gameRowIndex <= 0 || globalData.gameOver) return;
     globalData.gameRowIndex--;
     const tile = document.getElementById(
       `${globalData.rowIndex}.${globalData.gameRowIndex}`
@@ -62,12 +62,17 @@ class keyActionsClass extends wordColorsClass {
   };
 
   handleSubmit = () => {
+    if (globalData.gameOver) {
+      tileAnimation.createErrorAlert("game over");
+      localStoragePanel.saveArrayOfWords();
+      return;
+    }
     const rowData =
       globalData.guessRowsPanel[
         globalData.rowIndex > 5 ? 5 : globalData.rowIndex
       ];
     const currentRowPanel = rowData.includes("");
-    const word = rowData.join("");
+    const word = rowData.join("").toLocaleLowerCase();
     const secretWord = globalData.secretWord;
 
     if (!dictionary.includes(word) || currentRowPanel) {
@@ -84,14 +89,25 @@ class keyActionsClass extends wordColorsClass {
     if (word === secretWord) {
       tileAnimation.setTileColor(globalData.rowIndex);
       tileAnimation.createErrorAlert("game over");
+      globalData.gameOver = true;
+      localStoragePanel.saveArrayOfWords();
       return;
+    } else {
+      if (globalData.rowIndex === 5) {
+        tileAnimation.rotateTile();
+        tileAnimation.setTileColor(globalData.rowIndex);
+        globalData.gameOver = true;
+        localStoragePanel.saveArrayOfWords();
+        return;
+      }
     }
-
     if (globalData.rowIndex < 5) {
+      tileAnimation.rotateTile();
       tileAnimation.setTileColor(globalData.rowIndex);
       globalData.rowIndex++;
       globalData.gameRowIndex = 0;
     }
+    localStoragePanel.saveArrayOfWords();
   };
 }
 

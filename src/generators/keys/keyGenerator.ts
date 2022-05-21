@@ -1,9 +1,7 @@
 import { globalData } from "../../constants";
 import keyActionsClass from "../../actions/keyActions";
 
-const buttonsContainer = document.querySelector(
-  ".row_container"
-) as unknown as Element;
+const buttonsContainer = document.querySelector(".row_container") as Element;
 
 class keyGeneratorClass extends keyActionsClass {
   generateDiv = (row: Element) => {

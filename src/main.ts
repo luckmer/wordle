@@ -4,8 +4,8 @@ import keyboardGenerator from "./generators/keyboardGenerator/keyboardGenerator"
 import randomWord from "./generators/randomWord/randomWordGenerator";
 import localStorage from "./localStorage/localStorage";
 
-localStorage.loadSavedArray();
 randomWord.generateRandomWord();
+localStorage.loadSavedArray();
 keyboardGenerator.keyboardGenerator();
 keyGenerator.keyGenerator();
 guessRows.generateRows();
