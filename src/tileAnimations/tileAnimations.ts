@@ -46,23 +46,48 @@ class tileAnimationsClass {
     const rowCollection = gameRow.querySelectorAll(
       ".row"
     ) as unknown as Array<HTMLElement>;
+    const buttonsCollections = document.querySelectorAll("button");
+
     const wordsPerRow = Array.from(rowCollection)
       .map((el: HTMLElement) => el.childNodes[0].textContent)
       .join("");
     if (wordsPerRow === "") return;
     const wordsWithNoCopies = removeDuplicate(wordsPerRow);
+
     const secretWord = globalData.secretWord;
+
+    const buttonColors: Array<{ color: string; word: string }> = [];
 
     rowCollection.forEach((el: HTMLElement, i: number) => {
       if (wordsPerRow.length === 5) {
         if (secretWord[i] === wordsPerRow[i]) {
           el.classList.add("correct");
+          buttonColors.push({
+            color: "correct",
+            word: el.textContent as string,
+          });
         } else if (secretWord.includes(wordsWithNoCopies[i])) {
           el.classList.add("present");
+          buttonColors.push({
+            color: "present",
+            word: el.textContent as string,
+          });
         } else {
           el.classList.add("primary");
+          buttonColors.push({
+            color: "primary",
+            word: el.textContent as string,
+          });
         }
       }
+    });
+    buttonsCollections.forEach((button) => {
+      const index = buttonColors.findIndex(
+        (el) => el.word === (button.textContent as string).toLocaleLowerCase()
+      );
+      if (index === -1) return;
+      const buttonColor = buttonColors[index];
+      button.classList.add(buttonColor.color);
     });
   };
 }
