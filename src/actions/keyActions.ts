@@ -62,11 +62,6 @@ class keyActionsClass extends wordColorsClass {
   };
 
   handleSubmit = () => {
-    if (globalData.gameOver) {
-      tileAnimation.createErrorAlert("game over");
-      localStoragePanel.saveArrayOfWords();
-      return;
-    }
     const rowData =
       globalData.guessRowsPanel[
         globalData.rowIndex > 5 ? 5 : globalData.rowIndex
@@ -74,6 +69,18 @@ class keyActionsClass extends wordColorsClass {
     const currentRowPanel = rowData.includes("");
     const word = rowData.join("").toLocaleLowerCase();
     const secretWord = globalData.secretWord;
+
+    if (globalData.gameOver && word !== secretWord) {
+      tileAnimation.createErrorAlert("game over");
+      localStoragePanel.saveArrayOfWords();
+      return;
+    }
+
+    if (globalData.gameOver && word === secretWord) {
+      tileAnimation.createErrorAlert("You won!");
+      localStoragePanel.saveArrayOfWords();
+      return;
+    }
 
     if (!dictionary.includes(word) || currentRowPanel) {
       const shakeRow = document.getElementById(
@@ -96,19 +103,19 @@ class keyActionsClass extends wordColorsClass {
 
     if (word === secretWord) {
       tileAnimation.setTileColor(globalData.rowIndex);
-      tileAnimation.createErrorAlert("game over");
+      tileAnimation.createErrorAlert("You won!");
       globalData.gameOver = true;
       localStoragePanel.saveArrayOfWords();
       return;
     }
 
     if (globalData.rowIndex < 5) {
+      tileAnimation.rotateTile(globalData.rowIndex);
+      tileAnimation.setTileColor(globalData.rowIndex);
       globalData.rowIndex++;
       globalData.gameRowIndex = 0;
+      localStoragePanel.saveArrayOfWords();
     }
-    tileAnimation.rotateTile(globalData.rowIndex);
-    tileAnimation.setTileColor(globalData.rowIndex);
-    localStoragePanel.saveArrayOfWords();
   };
 }
 
