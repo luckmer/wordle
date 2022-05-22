@@ -4,13 +4,48 @@ import { removeDuplicate } from "../utils";
 const toaster = document.querySelector(".toaster") as Element;
 
 class tileAnimationsClass {
-  setBlackBorder = (tile: Element) => {
-    tile.classList.add("black_border");
-  };
+  setBlackBorder = (tile: Element) => tile.classList.add("black_border");
+  removeBlackBorder = (tile: Element) => tile.classList.remove("black_border");
+  removeFlipAnimation = (tile: Element) => tile.classList.remove("flip");
+  setFlipAnimation = (tile: Element) => tile.classList.add("flip");
+  setUndoFlip = (tile: Element) => tile.classList.add("undoflip");
 
-  removeBlackBorder = (tile: Element) => {
-    tile.classList.remove("black_border");
-  };
+  private setColorByTile(
+    wordsPerRow: string,
+    secretWord: string,
+    index: number,
+    row: HTMLElement,
+    buttonColors: { color: string; word: string }[],
+    wordsWithNoCopies: string[]
+  ) {
+    if (wordsPerRow.length < 5) return;
+    if (secretWord[index] === wordsPerRow[index]) {
+      row.classList.add("correct");
+      buttonColors.push({ color: "correct", word: row.textContent as string });
+      return;
+    }
+    if (secretWord.includes(wordsWithNoCopies[index])) {
+      row.classList.add("present");
+      buttonColors.push({ color: "present", word: row.textContent as string });
+      return;
+    }
+    row.classList.add("primary");
+    buttonColors.push({ color: "primary", word: row.textContent as string });
+  }
+
+  private setButtonColor(
+    buttonsCollections: NodeListOf<HTMLButtonElement>,
+    buttonColors: { color: string; word: string }[]
+  ) {
+    buttonsCollections.forEach((button) => {
+      const index = buttonColors.findIndex(
+        (el) => el.word === (button.textContent as string).toLocaleLowerCase()
+      );
+      if (index === -1) return;
+      const buttonColor = buttonColors[index];
+      button.classList.add(buttonColor.color);
+    });
+  }
 
   changeScale = (tile: Element) => {
     tile.classList.add("size");
@@ -38,6 +73,47 @@ class tileAnimationsClass {
   };
 
   rotateTile = (index: number) => {
+    const gameRow = document.getElementById(`${index}`) as HTMLElement;
+    const rowCollection = gameRow.querySelectorAll(
+      ".row"
+    ) as unknown as Array<HTMLElement>;
+    const buttonsCollections = document.querySelectorAll("button");
+    const wordsPerRow = Array.from(rowCollection)
+      .map((el: HTMLElement) => el.childNodes[0].textContent)
+      .join("");
+
+    if (wordsPerRow === "") return;
+
+    const wordsWithNoCopies = removeDuplicate(wordsPerRow);
+    const secretWord = globalData.secretWord;
+    const buttonColors: Array<{ color: string; word: string }> = [];
+
+    rowCollection.forEach((row, index) => {
+      setTimeout(() => this.setFlipAnimation(row), (index * 500) / 2);
+
+      row.addEventListener(
+        "transitionend",
+        () => {
+          this.setColorByTile(
+            wordsPerRow,
+            secretWord,
+            index,
+            row,
+            buttonColors,
+            wordsWithNoCopies
+          );
+          this.removeFlipAnimation(row);
+          this.setUndoFlip(row);
+        },
+        {
+          once: true,
+        }
+      );
+    });
+    this.setButtonColor(buttonsCollections, buttonColors);
+  };
+
+  jumpTile = (index: number) => {
     console.log(index);
   };
 
@@ -47,48 +123,27 @@ class tileAnimationsClass {
       ".row"
     ) as unknown as Array<HTMLElement>;
     const buttonsCollections = document.querySelectorAll("button");
-
     const wordsPerRow = Array.from(rowCollection)
       .map((el: HTMLElement) => el.childNodes[0].textContent)
       .join("");
+
     if (wordsPerRow === "") return;
+
     const wordsWithNoCopies = removeDuplicate(wordsPerRow);
-
     const secretWord = globalData.secretWord;
-
     const buttonColors: Array<{ color: string; word: string }> = [];
 
-    rowCollection.forEach((el: HTMLElement, i: number) => {
-      if (wordsPerRow.length === 5) {
-        if (secretWord[i] === wordsPerRow[i]) {
-          el.classList.add("correct");
-          buttonColors.push({
-            color: "correct",
-            word: el.textContent as string,
-          });
-        } else if (secretWord.includes(wordsWithNoCopies[i])) {
-          el.classList.add("present");
-          buttonColors.push({
-            color: "present",
-            word: el.textContent as string,
-          });
-        } else {
-          el.classList.add("primary");
-          buttonColors.push({
-            color: "primary",
-            word: el.textContent as string,
-          });
-        }
-      }
-    });
-    buttonsCollections.forEach((button) => {
-      const index = buttonColors.findIndex(
-        (el) => el.word === (button.textContent as string).toLocaleLowerCase()
+    rowCollection.forEach((row: HTMLElement, index: number) => {
+      this.setColorByTile(
+        wordsPerRow,
+        secretWord,
+        index,
+        row,
+        buttonColors,
+        wordsWithNoCopies
       );
-      if (index === -1) return;
-      const buttonColor = buttonColors[index];
-      button.classList.add(buttonColor.color);
     });
+    this.setButtonColor(buttonsCollections, buttonColors);
   };
 }
 

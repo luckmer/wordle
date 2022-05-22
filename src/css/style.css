@@ -197,19 +197,24 @@ h1 {
   animation: size 75ms ease-in-out;
 }
 
+.flip {
+  transition: transform 350ms linear;
+  transform: rotateX(90deg);
+}
+.undoflip {
+  transition: transform 350ms linear;
+  transform: rotateX(0deg);
+}
 @keyframes size {
   10% {
     transform: scale(1);
   }
-
   50% {
     transform: scale(1.1);
   }
-
   90% {
     transform: scale(1.05);
   }
-
   100% {
     transform: scale(1);
   }
@@ -219,23 +224,18 @@ h1 {
   10% {
     transform: translateX(-2%);
   }
-
   30% {
     transform: translateX(2%);
   }
-
   50% {
     transform: translateX(-2.5%);
   }
-
   70% {
     transform: translateX(2.5%);
   }
-
   90% {
     transform: translateX(-2%);
   }
-
   100% {
     transform: translateX(0);
   }
@@ -245,24 +245,40 @@ h1 {
   20% {
     transform: translateY(-50%);
   }
-
   40% {
     transform: translateY(5%);
   }
-
   60% {
     transform: translateY(-25%);
   }
-
   80% {
     transform: translateY(2.5%);
   }
-
   90% {
     transform: translateY(-5%);
   }
-
   100% {
     transform: translateY(0);
+  }
+}
+
+@keyframes flip {
+  20% {
+    transform: rotateX(15deg);
+  }
+  40% {
+    transform: rotateX(45deg);
+  }
+  60% {
+    transform: rotateX(90deg);
+  }
+  80% {
+    transform: rotateX(45deg);
+  }
+  90% {
+    transform: rotateX(15deg);
+  }
+  100% {
+    transform: rotateX(0deg);
   }
 }

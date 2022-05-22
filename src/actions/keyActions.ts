@@ -95,14 +95,14 @@ class keyActionsClass extends wordColorsClass {
 
     if (globalData.rowIndex === 5 && word !== secretWord) {
       tileAnimation.rotateTile(globalData.rowIndex);
-      tileAnimation.setTileColor(globalData.rowIndex);
+      // tileAnimation.setTileColor(globalData.rowIndex);
       globalData.gameOver = true;
       localStoragePanel.saveArrayOfWords();
       return;
     }
 
     if (word === secretWord) {
-      tileAnimation.setTileColor(globalData.rowIndex);
+      // tileAnimation.setTileColor(globalData.rowIndex);
       tileAnimation.createErrorAlert("You won!");
       globalData.gameOver = true;
       localStoragePanel.saveArrayOfWords();
@@ -111,7 +111,7 @@ class keyActionsClass extends wordColorsClass {
 
     if (globalData.rowIndex < 5) {
       tileAnimation.rotateTile(globalData.rowIndex);
-      tileAnimation.setTileColor(globalData.rowIndex);
+      // tileAnimation.setTileColor(globalData.rowIndex);
       globalData.rowIndex++;
       globalData.gameRowIndex = 0;
       localStoragePanel.saveArrayOfWords();
