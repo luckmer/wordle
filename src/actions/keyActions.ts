@@ -1,9 +1,10 @@
 import { globalData, guessRows } from "../constants";
-import wordColorsClass from "../tileAnimations/tileAnimations";
+import wordColorsClass from "../animations/tileAnimations";
 import dictionary from "../../json/dictionary.json";
 import localStoragePanel from "../localStorage/localStorage";
 import randomWord from "../generators/randomWord/randomWordGenerator";
-import { tileAnimation } from "../tileAnimations/tileAnimations";
+import { tileAnimation } from "../animations/tileAnimations";
+import { gameDictionary } from "../constants/notifications";
 
 class keyActionsClass extends wordColorsClass {
   handleClickRoot = (e: MouseEvent) => {
@@ -27,9 +28,11 @@ class keyActionsClass extends wordColorsClass {
 
   handleClick = (letter: string) => {
     if (globalData.gameRowIndex >= 5 || globalData.gameOver) return;
+
     const tile = document.getElementById(
       `${globalData.rowIndex}.${globalData.gameRowIndex}`
     ) as Element;
+
     tile.textContent = letter;
     globalData.guessRowsPanel[globalData.rowIndex][globalData.gameRowIndex] =
       letter;
@@ -41,10 +44,13 @@ class keyActionsClass extends wordColorsClass {
 
   handleClear = () => {
     if (globalData.gameRowIndex <= 0 || globalData.gameOver) return;
+
     globalData.gameRowIndex--;
+
     const tile = document.getElementById(
       `${globalData.rowIndex}.${globalData.gameRowIndex}`
     ) as Element;
+
     tile.textContent = "";
     globalData.guessRowsPanel[globalData.rowIndex][globalData.gameRowIndex] =
       "";
@@ -70,14 +76,8 @@ class keyActionsClass extends wordColorsClass {
     const word = rowData.join("").toLocaleLowerCase();
     const secretWord = globalData.secretWord;
 
-    if (globalData.gameOver && word !== secretWord) {
-      tileAnimation.createErrorAlert("game over");
-      localStoragePanel.saveArrayOfWords();
-      return;
-    }
-
-    if (globalData.gameOver && word === secretWord) {
-      tileAnimation.createErrorAlert("You won!");
+    if (globalData.gameOver) {
+      tileAnimation.createErrorAlert(gameDictionary.GAME_OVER);
       localStoragePanel.saveArrayOfWords();
       return;
     }
@@ -88,7 +88,9 @@ class keyActionsClass extends wordColorsClass {
       ) as HTMLElement;
       tileAnimation.shakeRow(shakeRow);
       tileAnimation.createErrorAlert(
-        currentRowPanel ? "Not enough letters" : "Not in word list"
+        currentRowPanel
+          ? gameDictionary.NOT_ENOUGH_LETTERS
+          : gameDictionary.NOT_IN_WORD_LIST
       );
       return;
     }

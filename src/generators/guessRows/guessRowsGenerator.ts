@@ -1,4 +1,4 @@
-import { tileAnimation } from "../../tileAnimations/tileAnimations";
+import { tileAnimation } from "../../animations/tileAnimations";
 
 const boardContainer = document.querySelector(".board") as unknown as Element;
 import { globalData } from "../../constants";
@@ -34,6 +34,7 @@ class guessRowsGenerator {
   generateRows = () => {
     globalData.guessRowsPanel.forEach((row: string[], rowIndex: number) => {
       const gameRow: HTMLDivElement = document.createElement("div");
+
       gameRow.classList.add("game-row");
       gameRow.setAttribute("id", `${rowIndex}`);
       row.forEach((title: string, gameRowIndex: number) =>

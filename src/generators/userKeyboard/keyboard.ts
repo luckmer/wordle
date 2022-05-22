@@ -16,7 +16,6 @@ class keyboardGeneratorGenerator extends keyActionsClass {
         this.handleSubmit();
         break;
       }
-
       default: {
         if (matchLetter === null) break;
         this.handleClick(matchLetter);
