@@ -49,7 +49,6 @@ class guessRowsGenerator {
     const rows = Array.from(boardContainer.querySelectorAll(".row"));
     rows.forEach((rowElement) => {
       rowElement.classList.value = "row";
-      console.log(rowElement.classList.value);
       const rowChild = rowElement.childNodes[0] as unknown as Element;
       rowChild.classList.value = "tile";
       rowChild.textContent = "";
