@@ -2,8 +2,10 @@ import words from "../../../json/words.json";
 import { globalData } from "../../constants";
 
 class randomWordGenerator {
-  readonly wordIndex = Math.floor(Math.random() * words.length);
-  returnRandomWord = () => words[this.wordIndex];
+  returnRandomWord = () => {
+    const wordIndex = Math.floor(Math.random() * words.length);
+    return words[wordIndex];
+  };
   generateRandomWord = () => {
     globalData.secretWord = this.returnRandomWord();
   };

@@ -1,7 +1,7 @@
 import { tileAnimation } from "../../animations/tileAnimations";
+import { globalData } from "../../constants";
 
 const boardContainer = document.querySelector(".board") as unknown as Element;
-import { globalData } from "../../constants";
 
 class guessRowsGenerator {
   generatePTag = (
@@ -42,6 +42,17 @@ class guessRowsGenerator {
       );
       boardContainer.appendChild(gameRow);
       tileAnimation.setTileColor(rowIndex);
+    });
+  };
+
+  clearGrid = () => {
+    const rows = Array.from(boardContainer.querySelectorAll(".row"));
+    rows.forEach((rowElement) => {
+      rowElement.classList.value = "row";
+      console.log(rowElement.classList.value);
+      const rowChild = rowElement.childNodes[0] as unknown as Element;
+      rowChild.classList.value = "tile";
+      rowChild.textContent = "";
     });
   };
 }
