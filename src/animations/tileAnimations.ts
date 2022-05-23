@@ -1,7 +1,6 @@
 import { globalData } from "../constants";
 import { gameDictionary } from "../constants/notifications";
 import { removeDuplicate } from "../utils";
-
 const toaster = document.querySelector(".toaster") as Element;
 
 interface IColorProps {

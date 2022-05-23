@@ -1,12 +1,11 @@
-import { globalData, guessRows } from "../constants";
-import wordColorsClass from "../animations/tileAnimations";
+import { globalData } from "../constants";
+import tileAnimations from "../animations/tileAnimations";
 import dictionary from "../../json/dictionary.json";
 import localStoragePanel from "../localStorage/localStorage";
-import randomWord from "../generators/randomWord/randomWordGenerator";
 import { tileAnimation } from "../animations/tileAnimations";
 import { gameDictionary } from "../constants/notifications";
 
-class keyActionsClass extends wordColorsClass {
+class keyActionsClass extends tileAnimations {
   handleClickRoot = (e: MouseEvent) => {
     const letter = (e.target as HTMLTextAreaElement).textContent as string;
     switch (letter) {
@@ -55,15 +54,6 @@ class keyActionsClass extends wordColorsClass {
     globalData.guessRowsPanel[globalData.rowIndex][globalData.gameRowIndex] =
       "";
     tileAnimation.removeBlackBorder(tile);
-    localStoragePanel.saveArrayOfWords();
-  };
-
-  handleNewGame = () => {
-    globalData.rowIndex = 0;
-    globalData.gameRowIndex = 0;
-    globalData.gameOver = false;
-    globalData.secretWord = randomWord.returnRandomWord();
-    globalData.guessRowsPanel = guessRows;
     localStoragePanel.saveArrayOfWords();
   };
 
