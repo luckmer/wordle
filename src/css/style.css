@@ -26,6 +26,22 @@ main {
 .header {
   width: 100%;
   border-bottom: 1px solid #d3d6da;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header > .header_container {
+  width: 100%;
+}
+.header > .settings_container {
+  width: auto;
+  margin-right: 2%;
+  margin-left: 2%;
+}
+
+.settings_container img {
+  width: 25px;
+  cursor: pointer;
 }
 
 #app {
@@ -129,10 +145,6 @@ main {
 .action {
   flex: 1.5;
   font-size: 12px;
-}
-
-img {
-  width: 100%;
 }
 
 h1 {
