@@ -83,6 +83,7 @@ class tileAnimationsClass {
       );
       if (index === -1) return;
       const buttonColor = buttonColors[index];
+      button.classList.value = "button";
       button.classList.add(buttonColor.color);
     });
   };
