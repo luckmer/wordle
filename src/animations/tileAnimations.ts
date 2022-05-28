@@ -1,4 +1,3 @@
-import { RestartClass } from "../actions/Restart";
 import { globalData } from "../constants";
 import { gameDictionary } from "../constants/notifications";
 import { matchTheSameElements, removeDuplicate, timer } from "../utils";
