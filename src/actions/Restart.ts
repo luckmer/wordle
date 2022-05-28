@@ -1,6 +1,6 @@
 const restartSvg = document.querySelector(".restart") as Element;
 import randomWord from "../generators/randomWord/randomWordGenerator";
-import { globalData, guessRows } from "../constants";
+import { globalData } from "../constants";
 import localStoragePanel from "../localStorage/localStorage";
 import guessRowsGenerator from "../generators/guessRows/guessRowsGenerator";
 import { timer } from "../utils";
