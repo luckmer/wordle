@@ -25,7 +25,7 @@ class RestartClass {
     globalData.guessRowsPanel.forEach((_, index) => {
       const gameRow = document.getElementById(`${index}`) as HTMLElement;
       let gameRowCollection = gameRow.querySelectorAll(".row");
-      gameRowCollection.forEach((rowCollection, index) => {
+      gameRowCollection.forEach((rowCollection) => {
         const clearArray = setInterval(() => {
           rowCollection.className = "row";
           setTimeout(() => clearInterval(clearArray), timer(index, 2));
@@ -37,13 +37,12 @@ class RestartClass {
   clearKeyBoardState = () => {
     const keyboard = document.querySelector(".row_container") as Element;
     const keyboardRows = keyboard?.querySelectorAll(".row");
-
     keyboardRows.forEach((keyBoardRow) => {
       const keyBoardButtons = keyBoardRow.querySelectorAll("button");
       keyBoardButtons.forEach((button, index) => {
         const clearArray = setInterval(() => {
           button.className = "button";
-          setTimeout(() => clearInterval(clearArray), timer(index, 5));
+          setTimeout(() => clearInterval(clearArray), timer(index, 2));
         });
       });
     });
