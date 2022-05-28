@@ -33,8 +33,10 @@ class keyActionsClass extends tileAnimations {
     ) as Element;
 
     tile.textContent = letter;
-    globalData.guessRowsPanel[globalData.rowIndex][globalData.gameRowIndex] =
-      letter;
+    globalData.guessRowsPanel[globalData.rowIndex].words[
+      globalData.gameRowIndex
+    ] = letter;
+
     tileAnimation.setBlackBorder(tile);
     tileAnimation.changeScale(tile);
     globalData.gameRowIndex++;
@@ -51,8 +53,9 @@ class keyActionsClass extends tileAnimations {
     ) as Element;
 
     tile.textContent = "";
-    globalData.guessRowsPanel[globalData.rowIndex][globalData.gameRowIndex] =
-      "";
+    globalData.guessRowsPanel[globalData.rowIndex].words[
+      globalData.gameRowIndex
+    ] = "";
     tileAnimation.removeBlackBorder(tile);
     localStoragePanel.saveArrayOfWords();
   };
@@ -62,8 +65,8 @@ class keyActionsClass extends tileAnimations {
       globalData.guessRowsPanel[
         globalData.rowIndex > 5 ? 5 : globalData.rowIndex
       ];
-    const currentRowPanel = rowData.includes("");
-    const word = rowData.join("").toLocaleLowerCase();
+    const currentRowPanel = rowData.words.includes("");
+    const word = rowData.words.join("").toLocaleLowerCase();
     const secretWord = globalData.secretWord;
 
     if (globalData.gameOver) {
@@ -100,6 +103,9 @@ class keyActionsClass extends tileAnimations {
     }
 
     if (globalData.rowIndex < 5) {
+      globalData.guessRowsPanel[
+        globalData.rowIndex > 5 ? 5 : globalData.rowIndex
+      ].acceptedWord = true;
       tileAnimation.rotateTile(globalData.rowIndex);
       globalData.rowIndex++;
       globalData.gameRowIndex = 0;

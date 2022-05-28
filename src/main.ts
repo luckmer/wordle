@@ -5,9 +5,9 @@ import randomWord from "./generators/randomWord/randomWordGenerator";
 import localStorage from "./localStorage/localStorage";
 import restart from "./actions/Restart";
 
-restart.initiateNewGame();
 randomWord.generateRandomWord();
 localStorage.loadSavedArray();
 keyboardGenerator.keyboardGenerator();
 keyGenerator.keyGenerator();
 guessRows.generateRows();
+restart.initiateNewGame();

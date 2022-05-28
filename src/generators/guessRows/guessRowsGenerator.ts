@@ -32,17 +32,24 @@ class guessRowsGenerator {
   };
 
   generateRows = () => {
-    globalData.guessRowsPanel.forEach((row: string[], rowIndex: number) => {
-      const gameRow: HTMLDivElement = document.createElement("div");
+    console.log(globalData.guessRowsPanel);
+    globalData.guessRowsPanel.forEach(
+      (
+        rowObj: { words: string[]; acceptedWord: boolean },
+        rowIndex: number
+      ) => {
+        const gameRow: HTMLDivElement = document.createElement("div");
 
-      gameRow.classList.add("game-row");
-      gameRow.setAttribute("id", `${rowIndex}`);
-      row.forEach((title: string, gameRowIndex: number) =>
-        this.generateDiv(gameRow, title, gameRowIndex, rowIndex)
-      );
-      boardContainer.appendChild(gameRow);
-      tileAnimation.setTileColor(rowIndex);
-    });
+        gameRow.classList.add("game-row");
+        gameRow.setAttribute("id", `${rowIndex}`);
+        rowObj.words.forEach((title: string, gameRowIndex: number) =>
+          this.generateDiv(gameRow, title, gameRowIndex, rowIndex)
+        );
+        const wordStatus = rowObj.acceptedWord;
+        boardContainer.appendChild(gameRow);
+        tileAnimation.setTileColor(rowIndex, wordStatus);
+      }
+    );
   };
 
   clearGrid = () => {

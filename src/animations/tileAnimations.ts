@@ -1,6 +1,6 @@
 import { globalData } from "../constants";
 import { gameDictionary } from "../constants/notifications";
-import { removeDuplicate } from "../utils";
+import { removeDuplicate, timer } from "../utils";
 const toaster = document.querySelector(".toaster") as Element;
 
 interface IColorProps {
@@ -57,7 +57,7 @@ class tileAnimationsClass {
           },
           true
         );
-      }, (index * 500) / 5);
+      }, timer(index));
     });
   };
 
@@ -92,6 +92,7 @@ class tileAnimationsClass {
     const rowCollection = gameRow.querySelectorAll(
       ".row"
     ) as unknown as Array<HTMLElement>;
+
     const rowData =
       globalData.guessRowsPanel[
         globalData.rowIndex > 5 ? 5 : globalData.rowIndex
@@ -102,13 +103,13 @@ class tileAnimationsClass {
 
     if (wordsPerRow === "") return;
     const buttonColors: Array<{ color: string; word: string }> = [];
-    const word = rowData.join("").toLocaleLowerCase();
+    const word = rowData.words.join("").toLocaleLowerCase();
     const buttonsCollections = document.querySelectorAll("button");
     const wordsWithNoCopies = removeDuplicate(wordsPerRow);
     const secretWord = globalData.secretWord;
 
     rowCollection.forEach((row, index) => {
-      setTimeout(() => this.setFlipAnimation(row), (index * 500) / 2);
+      setTimeout(() => this.setFlipAnimation(row), timer(index, 2));
       row.addEventListener(
         "transitionend",
         () => {
@@ -147,7 +148,8 @@ class tileAnimationsClass {
     buttonColors.push({ color: "primary", word: row.textContent as string });
   };
 
-  setTileColor = (index: number) => {
+  setTileColor = (index: number, wordStatus?: boolean) => {
+    if (!wordStatus) return;
     const gameRow = document.getElementById(`${index}`) as HTMLElement;
     let rowCollection = gameRow.querySelectorAll(".row");
     const collectionsOfRow = rowCollection as unknown as Array<HTMLElement>;

@@ -1,10 +1,10 @@
 export const guessRows = [
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
-  ["", "", "", "", ""],
+  { words: ["", "", "", "", ""], acceptedWord: false },
+  { words: ["", "", "", "", ""], acceptedWord: false },
+  { words: ["", "", "", "", ""], acceptedWord: false },
+  { words: ["", "", "", "", ""], acceptedWord: false },
+  { words: ["", "", "", "", ""], acceptedWord: false },
+  { words: ["", "", "", "", ""], acceptedWord: false },
 ];
 
 export class globalData {

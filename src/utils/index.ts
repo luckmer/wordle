@@ -1,3 +1,5 @@
+export const LONG_ANIMATION_TIME = 500;
+
 export const removeDuplicate = (string: string) => {
   const deleteWordIndex = string
     .split("")
@@ -11,4 +13,8 @@ export const removeDuplicate = (string: string) => {
       return item;
     return item;
   });
+};
+
+export const timer = (index: number, divider = 5) => {
+  return (LONG_ANIMATION_TIME * index) / divider;
 };

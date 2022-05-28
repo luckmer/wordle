@@ -1,16 +1,42 @@
 const restartSvg = document.querySelector(".restart") as Element;
 import randomWord from "../generators/randomWord/randomWordGenerator";
-import { globalData, guessRows } from "../constants";
+import { globalData } from "../constants";
 import localStoragePanel from "../localStorage/localStorage";
 import guessRowsGenerator from "../generators/guessRows/guessRowsGenerator";
+import { timer } from "../utils";
 
 class RestartClass {
-  handleInitiateNewGame = () => {
+  clearGloblaDataState = () => {
     globalData.rowIndex = 0;
     globalData.gameRowIndex = 0;
     globalData.gameOver = false;
     globalData.secretWord = randomWord.returnRandomWord();
-    globalData.guessRowsPanel = guessRows;
+    globalData.guessRowsPanel = [
+      { words: ["", "", "", "", ""], acceptedWord: false },
+      { words: ["", "", "", "", ""], acceptedWord: false },
+      { words: ["", "", "", "", ""], acceptedWord: false },
+      { words: ["", "", "", "", ""], acceptedWord: false },
+      { words: ["", "", "", "", ""], acceptedWord: false },
+      { words: ["", "", "", "", ""], acceptedWord: false },
+    ];
+  };
+
+  clearGameState = () => {
+    globalData.guessRowsPanel.forEach((_, index) => {
+      const gameRow = document.getElementById(`${index}`) as HTMLElement;
+      let gameRowCollection = gameRow.querySelectorAll(".row");
+      gameRowCollection.forEach((rowCollection, index) => {
+        const clearArray = setInterval(() => {
+          rowCollection.className = "row";
+          setTimeout(() => clearInterval(clearArray), timer(index, 2));
+        }, 1);
+      });
+    });
+  };
+
+  handleInitiateNewGame = () => {
+    this.clearGloblaDataState();
+    this.clearGameState();
     localStoragePanel.saveArrayOfWords();
     guessRowsGenerator.clearGrid();
   };
