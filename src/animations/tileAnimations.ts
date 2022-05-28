@@ -1,7 +1,7 @@
 import { RestartClass } from "../actions/Restart";
 import { globalData } from "../constants";
 import { gameDictionary } from "../constants/notifications";
-import { removeDuplicate, timer } from "../utils";
+import { matchTheSameElements, removeDuplicate, timer } from "../utils";
 const toaster = document.querySelector(".toaster") as Element;
 
 interface IColorProps {
@@ -80,9 +80,8 @@ class tileAnimationsClass extends RestartClass {
     const { guessRowsPanel } = JSON.parse(
       localStorage.getItem("words") as string
     );
-    const hasNoWords = guessRowsPanel
-      .map(({ acceptedWord }: { acceptedWord: boolean }) => acceptedWord)
-      .every((el: boolean) => el === false);
+
+    const hasNoWords = matchTheSameElements(guessRowsPanel);
 
     if (hasNoWords) return;
 

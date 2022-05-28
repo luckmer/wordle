@@ -18,3 +18,11 @@ export const removeDuplicate = (string: string) => {
 export const timer = (index: number, divider = 5) => {
   return (LONG_ANIMATION_TIME * index) / divider;
 };
+
+export const matchTheSameElements = <T extends { acceptedWord: boolean }>(
+  arr: Array<T>
+) => {
+  return arr
+    .map(({ acceptedWord }: { acceptedWord: boolean }) => acceptedWord)
+    .every((el: boolean) => el === false);
+};
