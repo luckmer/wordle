@@ -15,3 +15,6 @@ restart.initiateNewGame();
 //TODO: fix issue with updating state
 //TODO fix isue with color
 //todo fix issue with keyboard buttons
+//TODO add dark theme
+//TODO add translate
+//TODO  add statistics
