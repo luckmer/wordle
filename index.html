@@ -4,22 +4,36 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="src/style.css">
-    <title>Wordle </title>
+    <link rel="stylesheet" href="src/css/style.css" />
+    <link rel="stylesheet" href="src/css/colors.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+      rel="stylesheet"
+    />
+    <title>Wordle</title>
   </head>
   <body>
-  <div class="header">
-    <h1>WORDLE</h1>
-  </div>
-    <div class="container">
-      <div class = 'board-container'>
-          <div class ='board'></div>
-      </div>
-  <div  class ='row_container'></div>
-  </div>
+    <main>
+      <header class="header">
+        <div class="settings_container">
+          <img
+            type="svg"
+            src="./FontAwesomeIcons/reload.svg"
+            alt=""
+            class="restart"
+          />
+        </div>
+        <div class="header_container">
+          <h1>WORDLE</h1>
+        </div>
+        <div class="settings_container">
+          <img type="svg" src="./FontAwesomeIcons/gear-solid.svg" alt="" />
+        </div>
+      </header>
+      <div class="board"></div>
+      <div class="row_container"></div>
+    </main>
+    <div class="toaster" id="game-toaster"></div>
     <script type="module" src="./src/main.ts"></script>
   </body>
 </html>
-
-
-
