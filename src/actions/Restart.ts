@@ -5,7 +5,7 @@ import localStoragePanel from "../localStorage/localStorage";
 import guessRowsGenerator from "../generators/guessRows/guessRowsGenerator";
 import { timer } from "../utils";
 
-class RestartClass {
+export class RestartClass {
   clearGloblaDataState = () => {
     globalData.rowIndex = 0;
     globalData.gameRowIndex = 0;
@@ -45,7 +45,9 @@ class RestartClass {
       const keyBoardButtons = keyBoardRow.querySelectorAll("button");
       keyBoardButtons.forEach((button, index) => {
         const clearArray = setInterval(() => {
-          button.className = "button";
+          if (button.className === "button action") {
+            button.className = "button action";
+          } else button.className = "button";
           setTimeout(() => clearInterval(clearArray), timer(index, 2));
         });
       });
@@ -64,6 +66,5 @@ class RestartClass {
     restartSvg.addEventListener("click", () => this.handleInitiateNewGame());
   };
 }
-
 const restart = new RestartClass();
 export default restart;

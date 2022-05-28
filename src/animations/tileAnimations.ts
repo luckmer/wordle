@@ -1,3 +1,4 @@
+import { RestartClass } from "../actions/Restart";
 import { globalData } from "../constants";
 import { gameDictionary } from "../constants/notifications";
 import { removeDuplicate, timer } from "../utils";
@@ -12,7 +13,7 @@ interface IColorProps {
   wordsWithNoCopies: string[];
 }
 
-class tileAnimationsClass {
+class tileAnimationsClass extends RestartClass {
   setBlackBorder = (tile: Element) => tile.classList.add("black_border");
   removeBlackBorder = (tile: Element) => tile.classList.remove("black_border");
   removeFlipAnimation = (tile: Element) => tile.classList.remove("flip");
@@ -76,6 +77,15 @@ class tileAnimationsClass {
     buttonsCollections: NodeListOf<HTMLButtonElement>,
     buttonColors: { color: string; word: string }[]
   ) => {
+    const { guessRowsPanel } = JSON.parse(
+      localStorage.getItem("words") as string
+    );
+    const hasNoWords = guessRowsPanel
+      .map(({ acceptedWord }: { acceptedWord: boolean }) => acceptedWord)
+      .every((el: boolean) => el === false);
+
+    if (hasNoWords) return;
+
     buttonsCollections.forEach((button) => {
       const index = buttonColors.findIndex(
         (el) => el.word === (button.textContent as string).toLocaleLowerCase()
