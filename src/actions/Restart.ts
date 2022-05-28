@@ -22,13 +22,16 @@ class RestartClass {
   };
 
   clearGameState = () => {
-    globalData.guessRowsPanel.forEach((_, index) => {
-      const gameRow = document.getElementById(`${index}`) as HTMLElement;
+    globalData.guessRowsPanel.forEach((_, rowIndex) => {
+      const gameRow = document.getElementById(`${rowIndex}`) as HTMLElement;
       let gameRowCollection = gameRow.querySelectorAll(".row");
-      gameRowCollection.forEach((rowCollection) => {
+      gameRowCollection.forEach((rowCollection, rowCollectionIndex) => {
         const clearArray = setInterval(() => {
           rowCollection.className = "row";
-          setTimeout(() => clearInterval(clearArray), timer(index, 2));
+          setTimeout(
+            () => clearInterval(clearArray),
+            timer(rowCollectionIndex, 2)
+          );
         });
       });
     });
@@ -37,6 +40,7 @@ class RestartClass {
   clearKeyBoardState = () => {
     const keyboard = document.querySelector(".row_container") as Element;
     const keyboardRows = keyboard?.querySelectorAll(".row");
+
     keyboardRows.forEach((keyBoardRow) => {
       const keyBoardButtons = keyBoardRow.querySelectorAll("button");
       keyBoardButtons.forEach((button, index) => {
