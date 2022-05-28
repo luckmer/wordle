@@ -2,10 +2,10 @@ const restartSvg = document.querySelector(".restart") as Element;
 import randomWord from "../generators/randomWord/randomWordGenerator";
 import { globalData } from "../constants";
 import localStoragePanel from "../localStorage/localStorage";
-import guessRowsGenerator from "../generators/guessRows/guessRowsGenerator";
 import { timer } from "../utils";
+import restartButtonAnimation from "../animations/restartButtonAnimations";
 
-class RestartClass {
+export class RestartClass extends restartButtonAnimation {
   clearGloblaDataState = () => {
     globalData.rowIndex = 0;
     globalData.gameRowIndex = 0;
@@ -22,27 +22,25 @@ class RestartClass {
   };
 
   clearGameState = () => {
-    globalData.guessRowsPanel.forEach((_, index) => {
-      const gameRow = document.getElementById(`${index}`) as HTMLElement;
-      let gameRowCollection = gameRow.querySelectorAll(".row");
-      gameRowCollection.forEach((rowCollection, index) => {
-        const clearArray = setInterval(() => {
-          rowCollection.className = "row";
-          setTimeout(() => clearInterval(clearArray), timer(index, 2));
-        });
-      });
+    globalData.guessRowsPanel.forEach((_, rowIndex) => {
+      const gameRow = document.getElementById(`${rowIndex}`) as HTMLElement;
+      const gameRowCollection = gameRow.querySelectorAll(".row");
+      gameRowCollection.forEach((rowCollection, rowCollectionIndex) =>
+        this.setFlipClearAnimation(rowCollection, rowCollectionIndex, rowIndex)
+      );
     });
   };
 
   clearKeyBoardState = () => {
     const keyboard = document.querySelector(".row_container") as Element;
     const keyboardRows = keyboard?.querySelectorAll(".row");
-
     keyboardRows.forEach((keyBoardRow) => {
       const keyBoardButtons = keyBoardRow.querySelectorAll("button");
       keyBoardButtons.forEach((button, index) => {
         const clearArray = setInterval(() => {
-          button.className = "button";
+          if (button.className === "button action") {
+            button.className = "button action";
+          } else button.className = "button";
           setTimeout(() => clearInterval(clearArray), timer(index, 2));
         });
       });
@@ -54,13 +52,14 @@ class RestartClass {
     this.clearGameState();
     this.clearKeyBoardState();
     localStoragePanel.saveArrayOfWords();
-    guessRowsGenerator.clearGrid();
   };
 
   initiateNewGame = () => {
-    restartSvg.addEventListener("click", () => this.handleInitiateNewGame());
+    restartSvg.addEventListener("click", (e) => {
+      this.rotateRestartGameIcon(e);
+      this.handleInitiateNewGame();
+    });
   };
 }
-
 const restart = new RestartClass();
 export default restart;

@@ -11,3 +11,7 @@ keyboardGenerator.keyboardGenerator();
 keyGenerator.keyGenerator();
 guessRows.generateRows();
 restart.initiateNewGame();
+
+//TODO add dark theme
+//TODO add translate
+//TODO  add statistics

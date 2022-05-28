@@ -1,6 +1,7 @@
 import { globalData } from "../constants";
 import { gameDictionary } from "../constants/notifications";
-import { removeDuplicate, timer } from "../utils";
+import { matchTheSameElements, removeDuplicate, timer } from "../utils";
+
 const toaster = document.querySelector(".toaster") as Element;
 
 interface IColorProps {
@@ -13,6 +14,12 @@ interface IColorProps {
 }
 
 class tileAnimationsClass {
+  readonly SHORT_ANIMATION_BLOCK = 200;
+  readonly INCORRECT_INDEX_RESULT = -1;
+  readonly BOTTOM_OF_GAME_GRID = 5;
+  readonly END_OF_ARRAY_INDEX = 4;
+  readonly TIME_DIVIDER = 2;
+
   setBlackBorder = (tile: Element) => tile.classList.add("black_border");
   removeBlackBorder = (tile: Element) => tile.classList.remove("black_border");
   removeFlipAnimation = (tile: Element) => tile.classList.remove("flip");
@@ -53,7 +60,9 @@ class tileAnimationsClass {
           "animationend",
           () => {
             tile.classList.remove("dance");
-            if (index === 4) this.createErrorAlert(gameDictionary.YOU_WON);
+            if (index === this.END_OF_ARRAY_INDEX) {
+              this.createErrorAlert(gameDictionary.YOU_WON);
+            }
           },
           true
         );
@@ -76,11 +85,19 @@ class tileAnimationsClass {
     buttonsCollections: NodeListOf<HTMLButtonElement>,
     buttonColors: { color: string; word: string }[]
   ) => {
+    const { guessRowsPanel } = JSON.parse(
+      localStorage.getItem("words") as string
+    );
+
+    const hasNoWords = matchTheSameElements(guessRowsPanel);
+
+    if (hasNoWords) return;
+
     buttonsCollections.forEach((button) => {
       const index = buttonColors.findIndex(
         (el) => el.word === (button.textContent as string).toLocaleLowerCase()
       );
-      if (index === -1) return;
+      if (index === this.INCORRECT_INDEX_RESULT) return;
       const buttonColor = buttonColors[index];
       button.classList.value = "button";
       button.classList.add(buttonColor.color);
@@ -95,7 +112,9 @@ class tileAnimationsClass {
 
     const rowData =
       globalData.guessRowsPanel[
-        globalData.rowIndex > 5 ? 5 : globalData.rowIndex
+        globalData.rowIndex > this.BOTTOM_OF_GAME_GRID
+          ? this.BOTTOM_OF_GAME_GRID
+          : globalData.rowIndex
       ];
     const wordsPerRow = Array.from(rowCollection)
       .map((el: HTMLElement) => el.childNodes[0].textContent)
@@ -109,7 +128,10 @@ class tileAnimationsClass {
     const secretWord = globalData.secretWord;
 
     rowCollection.forEach((row, index) => {
-      setTimeout(() => this.setFlipAnimation(row), timer(index, 2));
+      setTimeout(
+        () => this.setFlipAnimation(row),
+        timer(index, this.TIME_DIVIDER)
+      );
       row.addEventListener(
         "transitionend",
         () => {
@@ -117,13 +139,14 @@ class tileAnimationsClass {
           this.setColorByTile({ ...wordsObj, buttonColors, wordsWithNoCopies });
           this.removeFlipAnimation(row);
           this.setUndoFlip(row);
-          if (index === 4) {
+          if (index === this.END_OF_ARRAY_INDEX) {
             setTimeout(
               () => this.setButtonColor(buttonsCollections, buttonColors),
-              200
+              this.SHORT_ANIMATION_BLOCK
             );
           }
-          if (index === 4 && word === secretWord) this.jumpTile(rowCollection);
+          if (index === this.END_OF_ARRAY_INDEX && word === secretWord)
+            this.jumpTile(rowCollection);
         },
         true
       );
@@ -133,7 +156,7 @@ class tileAnimationsClass {
   setColorByTile = (props: IColorProps) => {
     const { wordsPerRow, secretWord, index, row } = props;
     const { buttonColors = [], wordsWithNoCopies } = props;
-    if (wordsPerRow.length < 5) return;
+    if (wordsPerRow.length < this.BOTTOM_OF_GAME_GRID) return;
     if (secretWord[index] === wordsPerRow[index]) {
       row.classList.add("correct");
       buttonColors.push({ color: "correct", word: row.textContent as string });

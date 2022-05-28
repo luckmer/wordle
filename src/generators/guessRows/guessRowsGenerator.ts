@@ -1,7 +1,9 @@
 import { tileAnimation } from "../../animations/tileAnimations";
 import { globalData } from "../../constants";
 
-const boardContainer = document.querySelector(".board") as unknown as Element;
+export const boardContainer = document.querySelector(
+  ".board"
+) as unknown as Element;
 
 class guessRowsGenerator {
   generatePTag = (
@@ -32,7 +34,6 @@ class guessRowsGenerator {
   };
 
   generateRows = () => {
-    console.log(globalData.guessRowsPanel);
     globalData.guessRowsPanel.forEach(
       (
         rowObj: { words: string[]; acceptedWord: boolean },
@@ -50,16 +51,6 @@ class guessRowsGenerator {
         tileAnimation.setTileColor(rowIndex, wordStatus);
       }
     );
-  };
-
-  clearGrid = () => {
-    const rows = Array.from(boardContainer.querySelectorAll(".row"));
-    rows.forEach((rowElement) => {
-      rowElement.classList.value = "row";
-      const rowChild = rowElement.childNodes[0] as unknown as Element;
-      rowChild.classList.value = "tile";
-      rowChild.textContent = "";
-    });
   };
 }
 

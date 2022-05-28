@@ -1,15 +1,24 @@
 import { globalData } from "../constants";
 
+interface IObjectInterface {
+  rowIndex: number;
+  gameRowIndex: number;
+  gameOver: boolean;
+  secretWord: string;
+  guessRowsPanel: {
+    words: string[];
+    acceptedWord: boolean;
+  }[];
+  keys: string[][];
+}
+
 class localStorageClass {
   saveArrayOfWords = () => {
-    const obj = {
-      guessRowsPanel: globalData.guessRowsPanel,
-      rowIndex: globalData.rowIndex,
-      gameRowIndex: globalData.gameRowIndex,
-      gameOver: globalData.gameOver,
-      secretWord: globalData.secretWord,
-    };
-    localStorage.setItem("words", JSON.stringify(obj));
+    const objects: { [key: string]: IObjectInterface } = {};
+    Object.keys(globalData).forEach(
+      (el, i) => (objects[el] = Object.values(globalData)[i])
+    );
+    localStorage.setItem("words", JSON.stringify(objects));
   };
 
   loadSavedArray = () => {
