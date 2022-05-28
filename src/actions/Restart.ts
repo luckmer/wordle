@@ -2,7 +2,6 @@ const restartSvg = document.querySelector(".restart") as Element;
 import randomWord from "../generators/randomWord/randomWordGenerator";
 import { globalData } from "../constants";
 import localStoragePanel from "../localStorage/localStorage";
-import { boardContainer } from "../generators/guessRows/guessRowsGenerator";
 import { timer } from "../utils";
 import restartButtonAnimation from "../animations/restartButtonAnimations";
 
@@ -25,16 +24,10 @@ export class RestartClass extends restartButtonAnimation {
   clearGameState = () => {
     globalData.guessRowsPanel.forEach((_, rowIndex) => {
       const gameRow = document.getElementById(`${rowIndex}`) as HTMLElement;
-      let gameRowCollection = gameRow.querySelectorAll(".row");
-      gameRowCollection.forEach((rowCollection, rowCollectionIndex) => {
-        const clearArray = setInterval(() => {
-          rowCollection.className = "row";
-          setTimeout(
-            () => clearInterval(clearArray),
-            timer(rowCollectionIndex, 2)
-          );
-        });
-      });
+      const gameRowCollection = gameRow.querySelectorAll(".row");
+      gameRowCollection.forEach((rowCollection, rowCollectionIndex) =>
+        this.setFlipClearAnimation(rowCollection, rowCollectionIndex, rowIndex)
+      );
     });
   };
 
@@ -54,22 +47,11 @@ export class RestartClass extends restartButtonAnimation {
     });
   };
 
-  clearGrid = () => {
-    const rows = Array.from(boardContainer.querySelectorAll(".row"));
-    rows.forEach((rowElement) => {
-      rowElement.classList.value = "row";
-      const rowChild = rowElement.childNodes[0] as unknown as Element;
-      rowChild.classList.value = "tile";
-      rowChild.textContent = "";
-    });
-  };
-
   handleInitiateNewGame = () => {
     this.clearGloblaDataState();
     this.clearGameState();
     this.clearKeyBoardState();
     localStoragePanel.saveArrayOfWords();
-    this.clearGrid();
   };
 
   initiateNewGame = () => {
