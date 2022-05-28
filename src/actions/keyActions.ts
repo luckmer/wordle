@@ -65,6 +65,9 @@ class keyActionsClass extends tileAnimations {
       globalData.guessRowsPanel[
         globalData.rowIndex > 5 ? 5 : globalData.rowIndex
       ];
+    globalData.guessRowsPanel[
+      globalData.rowIndex > 5 ? 5 : globalData.rowIndex
+    ].acceptedWord = true;
     const currentRowPanel = rowData.words.includes("");
     const word = rowData.words.join("").toLocaleLowerCase();
     const secretWord = globalData.secretWord;
@@ -103,9 +106,6 @@ class keyActionsClass extends tileAnimations {
     }
 
     if (globalData.rowIndex < 5) {
-      globalData.guessRowsPanel[
-        globalData.rowIndex > 5 ? 5 : globalData.rowIndex
-      ].acceptedWord = true;
       tileAnimation.rotateTile(globalData.rowIndex);
       globalData.rowIndex++;
       globalData.gameRowIndex = 0;
