@@ -1,6 +1,6 @@
 const restartSvg = document.querySelector(".restart") as Element;
 import randomWord from "../generators/randomWord/randomWordGenerator";
-import { globalData } from "../constants";
+import { globalData, guessRows } from "../constants";
 import localStoragePanel from "../localStorage/localStorage";
 import guessRowsGenerator from "../generators/guessRows/guessRowsGenerator";
 import { timer } from "../utils";
@@ -29,7 +29,22 @@ class RestartClass {
         const clearArray = setInterval(() => {
           rowCollection.className = "row";
           setTimeout(() => clearInterval(clearArray), timer(index, 2));
-        }, 1);
+        });
+      });
+    });
+  };
+
+  clearKeyBoardState = () => {
+    const keyboard = document.querySelector(".row_container") as Element;
+    const keyboardRows = keyboard?.querySelectorAll(".row");
+
+    keyboardRows.forEach((keyBoardRow) => {
+      const keyBoardButtons = keyBoardRow.querySelectorAll("button");
+      keyBoardButtons.forEach((button, index) => {
+        const clearArray = setInterval(() => {
+          button.className = "button";
+          setTimeout(() => clearInterval(clearArray), timer(index, 5));
+        });
       });
     });
   };
@@ -37,6 +52,7 @@ class RestartClass {
   handleInitiateNewGame = () => {
     this.clearGloblaDataState();
     this.clearGameState();
+    this.clearKeyBoardState();
     localStoragePanel.saveArrayOfWords();
     guessRowsGenerator.clearGrid();
   };
