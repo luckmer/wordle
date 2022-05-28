@@ -43,7 +43,7 @@ class RestartClass {
       keyBoardButtons.forEach((button, index) => {
         const clearArray = setInterval(() => {
           button.className = "button";
-          setTimeout(() => clearInterval(clearArray), timer(index, 5));
+          setTimeout(() => clearInterval(clearArray), timer(index, 2));
         });
       });
     });
