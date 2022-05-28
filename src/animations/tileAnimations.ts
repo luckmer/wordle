@@ -13,7 +13,7 @@ interface IColorProps {
   wordsWithNoCopies: string[];
 }
 
-class tileAnimationsClass extends RestartClass {
+class tileAnimationsClass {
   setBlackBorder = (tile: Element) => tile.classList.add("black_border");
   removeBlackBorder = (tile: Element) => tile.classList.remove("black_border");
   removeFlipAnimation = (tile: Element) => tile.classList.remove("flip");

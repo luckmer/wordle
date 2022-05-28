@@ -4,8 +4,9 @@ import { globalData } from "../constants";
 import localStoragePanel from "../localStorage/localStorage";
 import guessRowsGenerator from "../generators/guessRows/guessRowsGenerator";
 import { timer } from "../utils";
+import restartButtonAnimation from "../animations/restartButtonAnimations";
 
-export class RestartClass {
+export class RestartClass extends restartButtonAnimation {
   clearGloblaDataState = () => {
     globalData.rowIndex = 0;
     globalData.gameRowIndex = 0;
@@ -40,7 +41,6 @@ export class RestartClass {
   clearKeyBoardState = () => {
     const keyboard = document.querySelector(".row_container") as Element;
     const keyboardRows = keyboard?.querySelectorAll(".row");
-
     keyboardRows.forEach((keyBoardRow) => {
       const keyBoardButtons = keyBoardRow.querySelectorAll("button");
       keyBoardButtons.forEach((button, index) => {
@@ -63,7 +63,10 @@ export class RestartClass {
   };
 
   initiateNewGame = () => {
-    restartSvg.addEventListener("click", () => this.handleInitiateNewGame());
+    restartSvg.addEventListener("click", (e) => {
+      this.rotateRestartGameIcon(e);
+      this.handleInitiateNewGame();
+    });
   };
 }
 const restart = new RestartClass();
