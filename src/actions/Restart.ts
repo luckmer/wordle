@@ -2,7 +2,7 @@ const restartSvg = document.querySelector(".restart") as Element;
 import randomWord from "../generators/randomWord/randomWordGenerator";
 import { globalData } from "../constants";
 import localStoragePanel from "../localStorage/localStorage";
-import guessRowsGenerator from "../generators/guessRows/guessRowsGenerator";
+import { boardContainer } from "../generators/guessRows/guessRowsGenerator";
 import { timer } from "../utils";
 import restartButtonAnimation from "../animations/restartButtonAnimations";
 
@@ -54,12 +54,22 @@ export class RestartClass extends restartButtonAnimation {
     });
   };
 
+  clearGrid = () => {
+    const rows = Array.from(boardContainer.querySelectorAll(".row"));
+    rows.forEach((rowElement) => {
+      rowElement.classList.value = "row";
+      const rowChild = rowElement.childNodes[0] as unknown as Element;
+      rowChild.classList.value = "tile";
+      rowChild.textContent = "";
+    });
+  };
+
   handleInitiateNewGame = () => {
     this.clearGloblaDataState();
     this.clearGameState();
     this.clearKeyBoardState();
     localStoragePanel.saveArrayOfWords();
-    guessRowsGenerator.clearGrid();
+    this.clearGrid();
   };
 
   initiateNewGame = () => {

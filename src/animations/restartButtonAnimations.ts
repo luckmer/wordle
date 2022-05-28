@@ -1,5 +1,5 @@
 class restartButtonAnimation {
-  setRotate = (tile: Element) => {
+  rotateRestartIcon = (tile: Element) => {
     tile.classList.add("rotateSettingsIcon");
     tile.addEventListener(
       "transitionend",
@@ -10,7 +10,7 @@ class restartButtonAnimation {
 
   rotateRestartGameIcon = (e: Event) => {
     const element = e.target as Element;
-    this.setRotate(element);
+    this.rotateRestartIcon(element);
   };
 }
 
