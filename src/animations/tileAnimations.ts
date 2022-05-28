@@ -127,7 +127,6 @@ class tileAnimationsClass {
     const wordsWithNoCopies = removeDuplicate(wordsPerRow);
     const secretWord = globalData.secretWord;
 
-    console.log(rowCollection);
     rowCollection.forEach((row, index) => {
       setTimeout(
         () => this.setFlipAnimation(row),

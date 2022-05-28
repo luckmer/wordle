@@ -34,7 +34,6 @@ class guessRowsGenerator {
   };
 
   generateRows = () => {
-    console.log(globalData.guessRowsPanel);
     globalData.guessRowsPanel.forEach(
       (
         rowObj: { words: string[]; acceptedWord: boolean },
