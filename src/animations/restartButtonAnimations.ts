@@ -5,19 +5,19 @@ class restartButtonAnimation {
   readonly LONG_ANIMATION_BLOCK = 500;
   readonly TIME_DIVIDER = 2;
 
-  addFlipTileAnimation = (tile: Element) =>
-    tile.classList.add("flipTileClearGrid");
-
-  addundoFlipTileAnimation = (tile: Element) =>
-    tile.classList.add("undoflipTileClearGrid");
-
-  removeFlipTileAnimation = (tile: Element) =>
-    tile.classList.remove("flipTileClearGrid");
-
-  removeundoFlipTileAnimation = (tile: Element) =>
-    tile.classList.remove("undoflipTileClearGrid");
-
   removeWhiteBoard = (tile: Element) => tile.classList.remove("whiteBoard");
+  addFlipTileAnimation = (tile: Element) => {
+    return tile.classList.add("flipTileClearGrid");
+  };
+  addundoFlipTileAnimation = (tile: Element) => {
+    return tile.classList.add("undoflipTileClearGrid");
+  };
+  removeFlipTileAnimation = (tile: Element) => {
+    return tile.classList.remove("flipTileClearGrid");
+  };
+  removeundoFlipTileAnimation = (tile: Element) => {
+    return tile.classList.remove("undoflipTileClearGrid");
+  };
 
   rotateRestartIcon = (tile: Element) => {
     tile.classList.add("rotateSettingsIcon");
@@ -27,6 +27,7 @@ class restartButtonAnimation {
       true
     );
   };
+
   clearPrimaryColors = (target: Element) => {
     target.classList.add("whiteBoard");
     target.classList.remove("correct");
