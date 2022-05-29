@@ -1,9 +1,9 @@
-import { globalData } from "../constants";
 import { timer } from "../utils";
 
 class restartButtonAnimation {
-  readonly SHORT_ANIMATION_BLOCK = 350;
-  readonly LONG_ANIMATION_BLOCK = 500;
+  readonly DEATH_LONG_ANIMATION_DURATION = 700;
+  readonly SHORT_ANIMATION_BLOCK = 300;
+  readonly LONG_ANIMATION_BLOCK = 300;
   readonly TIME_DIVIDER = 2;
 
   removeWhiteBoard = (tile: Element) => tile.classList.remove("whiteBoard");
@@ -45,6 +45,7 @@ class restartButtonAnimation {
   unFlipClearAnimation = (target: Element) => {
     if (!target.classList.contains("flipTileClearGrid")) return;
     setTimeout(() => {
+      this.clearPrimaryColors(target);
       this.clearTileContent(target);
       this.removeFlipTileAnimation(target);
       this.addundoFlipTileAnimation(target);
@@ -67,30 +68,24 @@ class restartButtonAnimation {
   ) => {
     setTimeout(() => {
       setTimeout(() => {
-        const childElement = rowCollection.childNodes[0] as unknown as Element;
         if (rowCollection.classList.value === "row") return;
-
         this.addFlipTileAnimation(rowCollection);
         rowCollection.addEventListener("transitionend", (target) => {
           const rowTarget = target.target as Element;
-
-          if (
-            !rowTarget.classList.contains("flipTileClearGrid") ||
-            childElement.classList.value === "tile"
-          )
-            return;
-          const clearInvtervalState = setInterval(() => {
+          if (!rowTarget.classList.contains("flipTileClearGrid")) return;
+          const a = setInterval(() => {
             this.clearPrimaryColors(rowTarget);
             if (
               !rowTarget.classList.contains("correct") &&
               !rowTarget.classList.contains("present") &&
               !rowTarget.classList.contains("primary")
             ) {
-              setTimeout(() => clearInterval(clearInvtervalState), 200);
+              clearInterval(a);
             }
           });
-
-          this.unFlipClearAnimation(rowTarget);
+          setTimeout(() => {
+            this.unFlipClearAnimation(target.target as Element);
+          }, this.DEATH_LONG_ANIMATION_DURATION);
         });
       }, timer(rowCollectionIndex, this.TIME_DIVIDER));
     }, timer(rowIndex, this.TIME_DIVIDER));

@@ -174,7 +174,7 @@ h1 {
 }
 
 .shake {
-  animation: shake 350ms ease-in-out;
+  animation: shake 300ms ease-in-out;
 }
 
 #game-toaster {
@@ -216,17 +216,17 @@ h1 {
 }
 
 .flip {
-  transition: transform 350ms linear;
+  transition: transform 300ms linear;
   transform: rotateX(90deg);
 }
 
 .flipTileClearGrid {
-  transition: transform 350ms linear;
+  transition: transform 300ms linear !important;
   transform: rotateX(90deg);
 }
 
 .undoflipTileClearGrid {
-  transition: transform 350ms linear;
+  transition: transform 300ms linear;
   transform: rotateX(0deg);
 }
 
@@ -239,7 +239,7 @@ h1 {
 }
 
 .undoflip {
-  transition: transform 350ms linear;
+  transition: transform 300ms linear;
   transform: rotateX(0deg);
 }
 
