@@ -5,6 +5,7 @@ class restartButtonAnimation {
   readonly SHORT_ANIMATION_BLOCK = 300;
   readonly LONG_ANIMATION_BLOCK = 300;
   readonly TIME_DIVIDER = 2;
+  removeWhiteBoard = (tile: Element) => tile.classList.remove("whiteBoard");
   addundoFlipTileAnimation = (tile: Element) => {
     tile.classList.add("undoflipTileClearGrid");
   };
@@ -14,27 +15,13 @@ class restartButtonAnimation {
   removeundoFlipTileAnimation = (tile: Element) => {
     tile.classList.remove("undoflipTileClearGrid");
   };
-  removeWhiteBoard = (tile: Element) => tile.classList.remove("whiteBoard");
 
-  addFlipTileAnimation = (tile: Element) => {
-    tile.classList.add("flipTileClearGrid");
-    tile.addEventListener("transitionend", (target) => {
-      const rowTarget = target.target as Element;
-      if (!rowTarget.classList.contains("flipTileClearGrid")) return;
-      const a = setInterval(() => {
-        this.clearPrimaryColors(rowTarget);
-        if (
-          !rowTarget.classList.contains("correct") &&
-          !rowTarget.classList.contains("present") &&
-          !rowTarget.classList.contains("primary")
-        ) {
-          clearInterval(a);
-        }
-      });
-      setTimeout(() => {
-        this.unFlipClearAnimation(target.target as Element);
-      }, this.DEATH_LONG_ANIMATION_DURATION);
-    });
+  validateTileColor = (rowTarget: Element) => {
+    return (
+      !rowTarget.classList.contains("correct") &&
+      !rowTarget.classList.contains("present") &&
+      !rowTarget.classList.contains("primary")
+    );
   };
 
   rotateRestartIcon = (tile: Element) => {
@@ -59,6 +46,26 @@ class restartButtonAnimation {
     rowChild.textContent = "";
   };
 
+  rotateRestartGameIcon = (e: Event) => {
+    const element = e.target as Element;
+    this.rotateRestartIcon(element);
+  };
+
+  addFlipTileAnimation = (tile: Element) => {
+    tile.classList.add("flipTileClearGrid");
+    tile.addEventListener("transitionend", (target) => {
+      const rowTarget = target.target as Element;
+      if (!rowTarget.classList.contains("flipTileClearGrid")) return;
+      const a = setInterval(() => {
+        this.clearPrimaryColors(rowTarget);
+        if (this.validateTileColor(rowTarget)) clearInterval(a);
+      });
+      setTimeout(() => {
+        this.unFlipClearAnimation(target.target as Element);
+      }, this.DEATH_LONG_ANIMATION_DURATION);
+    });
+  };
+
   unFlipClearAnimation = (target: Element) => {
     if (!target.classList.contains("flipTileClearGrid")) return;
     setTimeout(() => {
@@ -73,11 +80,6 @@ class restartButtonAnimation {
     }, this.LONG_ANIMATION_BLOCK);
   };
 
-  rotateRestartGameIcon = (e: Event) => {
-    const element = e.target as Element;
-    this.rotateRestartIcon(element);
-  };
-
   setFlipClearAnimation = (
     rowCollection: Element,
     rowCollectionIndex: number,
@@ -87,7 +89,6 @@ class restartButtonAnimation {
       setTimeout(() => {
         const rowCollectionChild = rowCollection
           .childNodes[0] as unknown as Element;
-
         if (
           rowCollectionChild.classList.value !== "tile" &&
           rowCollection.classList.value === "row"
