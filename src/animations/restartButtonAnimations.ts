@@ -56,13 +56,17 @@ class restartButtonAnimation {
     tile.addEventListener("transitionend", (target) => {
       const rowTarget = target.target as Element;
       if (!rowTarget.classList.contains("flipTileClearGrid")) return;
-      const a = setInterval(() => {
+      const firstState = setInterval(() => {
         this.clearPrimaryColors(rowTarget);
-        if (this.validateTileColor(rowTarget)) clearInterval(a);
+        if (this.validateTileColor(rowTarget)) clearInterval(firstState);
       });
       setTimeout(() => {
-        this.unFlipClearAnimation(target.target as Element);
+        this.unFlipClearAnimation(rowTarget);
       }, this.DEATH_LONG_ANIMATION_DURATION);
+      const secondState = setInterval(() => {
+        this.clearPrimaryColors(rowTarget);
+        if (this.validateTileColor(rowTarget)) clearInterval(secondState);
+      });
     });
   };
 

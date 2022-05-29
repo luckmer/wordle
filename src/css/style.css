@@ -226,7 +226,7 @@ h1 {
 }
 
 .undoflipTileClearGrid {
-  transition: transform 300ms linear;
+  transition: transform 300ms linear !important;
   transform: rotateX(0deg);
 }
 
