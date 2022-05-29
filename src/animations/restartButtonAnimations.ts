@@ -1,7 +1,7 @@
 import { timer } from "../utils";
 
 class restartButtonAnimation {
-  readonly DEATH_LONG_ANIMATION_DURATION = 700;
+  readonly DEATH_LONG_ANIMATION_DURATION = 380;
   readonly SHORT_ANIMATION_BLOCK = 300;
   readonly LONG_ANIMATION_BLOCK = 300;
   readonly TIME_DIVIDER = 2;
@@ -68,6 +68,15 @@ class restartButtonAnimation {
   ) => {
     setTimeout(() => {
       setTimeout(() => {
+        const rowCollectionChild = rowCollection
+          .childNodes[0] as unknown as Element;
+
+        if (
+          rowCollectionChild.classList.value !== "tile" &&
+          rowCollection.classList.value === "row"
+        ) {
+          this.addFlipTileAnimation(rowCollection);
+        }
         if (rowCollection.classList.value === "row") return;
         this.addFlipTileAnimation(rowCollection);
         rowCollection.addEventListener("transitionend", (target) => {
