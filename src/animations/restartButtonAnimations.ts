@@ -1,7 +1,7 @@
 import { timer } from "../utils";
 
 class restartButtonAnimation {
-  readonly DEATH_LONG_ANIMATION_DURATION = 380;
+  readonly DEATH_LONG_ANIMATION_DURATION = 700;
   readonly SHORT_ANIMATION_BLOCK = 300;
   readonly LONG_ANIMATION_BLOCK = 300;
   readonly TIME_DIVIDER = 2;
