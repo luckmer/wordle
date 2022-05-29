@@ -13,6 +13,7 @@ export class globalData {
   public static gameOver = false;
   public static secretWord = "";
   public static guessRowsPanel = guessRows;
+  public static clearGame = false;
   public static keys = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
     ["spacer", "A", "S", "D", "F", "G", "H", "J", "K", "L", "spacer"],

@@ -25,9 +25,9 @@ export class RestartClass extends restartButtonAnimation {
     globalData.guessRowsPanel.forEach((_, rowIndex) => {
       const gameRow = document.getElementById(`${rowIndex}`) as HTMLElement;
       const gameRowCollection = gameRow.querySelectorAll(".row");
-      gameRowCollection.forEach((rowCollection, rowCollectionIndex) =>
-        this.setFlipClearAnimation(rowCollection, rowCollectionIndex, rowIndex)
-      );
+      gameRowCollection.forEach((rowCollection, rowCollectionIndex) => {
+        this.setFlipClearAnimation(rowCollection, rowCollectionIndex, rowIndex);
+      });
     });
   };
 
@@ -56,6 +56,7 @@ export class RestartClass extends restartButtonAnimation {
 
   initiateNewGame = () => {
     restartSvg.addEventListener("click", (e) => {
+      globalData.clearGame = true;
       this.rotateRestartGameIcon(e);
       this.handleInitiateNewGame();
     });

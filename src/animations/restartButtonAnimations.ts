@@ -1,3 +1,4 @@
+import { globalData } from "../constants";
 import { timer } from "../utils";
 
 class restartButtonAnimation {
@@ -44,7 +45,6 @@ class restartButtonAnimation {
   unFlipClearAnimation = (target: Element) => {
     if (!target.classList.contains("flipTileClearGrid")) return;
     setTimeout(() => {
-      this.clearPrimaryColors(target);
       this.clearTileContent(target);
       this.removeFlipTileAnimation(target);
       this.addundoFlipTileAnimation(target);
@@ -67,11 +67,31 @@ class restartButtonAnimation {
   ) => {
     setTimeout(() => {
       setTimeout(() => {
+        const childElement = rowCollection.childNodes[0] as unknown as Element;
         if (rowCollection.classList.value === "row") return;
+
         this.addFlipTileAnimation(rowCollection);
-        rowCollection.addEventListener("transitionend", (target) =>
-          this.unFlipClearAnimation(target.target as Element)
-        );
+        rowCollection.addEventListener("transitionend", (target) => {
+          const rowTarget = target.target as Element;
+
+          if (
+            !rowTarget.classList.contains("flipTileClearGrid") ||
+            childElement.classList.value === "tile"
+          )
+            return;
+          const clearInvtervalState = setInterval(() => {
+            this.clearPrimaryColors(rowTarget);
+            if (
+              !rowTarget.classList.contains("correct") &&
+              !rowTarget.classList.contains("present") &&
+              !rowTarget.classList.contains("primary")
+            ) {
+              setTimeout(() => clearInterval(clearInvtervalState), 200);
+            }
+          });
+
+          this.unFlipClearAnimation(rowTarget);
+        });
       }, timer(rowCollectionIndex, this.TIME_DIVIDER));
     }, timer(rowIndex, this.TIME_DIVIDER));
   };
