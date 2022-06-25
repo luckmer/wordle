@@ -26,7 +26,7 @@ export class RestartClass extends restartButtonAnimation {
       const gameRow = document.getElementById(`${rowIndex}`) as HTMLElement;
       const gameRowCollection = gameRow.querySelectorAll(".row");
       gameRowCollection.forEach((rowCollection, rowCollectionIndex) => {
-        this.setFlipClearAnimation(rowCollection, rowCollectionIndex, rowIndex);
+        this.clearTilesState(rowCollection, rowCollectionIndex);
       });
     });
   };
@@ -49,8 +49,8 @@ export class RestartClass extends restartButtonAnimation {
 
   handleInitiateNewGame = () => {
     this.clearGloblaDataState();
-    this.clearGameState();
     this.clearKeyBoardState();
+    this.clearGameState();
     localStoragePanel.saveArrayOfWords();
   };
 
