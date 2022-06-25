@@ -22,11 +22,27 @@ export class RestartClass extends restartButtonAnimation {
   };
 
   clearGameState = () => {
+    globalData.isAbleToType = false;
+    const arr = globalData.guessRowsPanel
+      .map((words, index) => {
+        const arrayOfWords = words.words.filter((word) => word !== "");
+        const obj = { rowIndex: index, childElementIndex: arrayOfWords.length };
+        return arrayOfWords.length ? obj : -1;
+      })
+      .filter((position) => position !== -1);
+    const lastElementIndexesPosition = arr[arr.length - 1] as {
+      [key: string]: number;
+    };
     globalData.guessRowsPanel.forEach((_, rowIndex) => {
       const gameRow = document.getElementById(`${rowIndex}`) as HTMLElement;
       const gameRowCollection = gameRow.querySelectorAll(".row");
       gameRowCollection.forEach((rowCollection, rowCollectionIndex) => {
-        this.setFlipClearAnimation(rowCollection, rowCollectionIndex, rowIndex);
+        this.setFlipClearAnimation(
+          rowCollection,
+          rowCollectionIndex,
+          rowIndex,
+          lastElementIndexesPosition
+        );
       });
     });
   };
@@ -48,9 +64,9 @@ export class RestartClass extends restartButtonAnimation {
   };
 
   handleInitiateNewGame = () => {
-    this.clearGloblaDataState();
-    this.clearKeyBoardState();
     this.clearGameState();
+    this.clearKeyBoardState();
+    this.clearGloblaDataState();
     localStoragePanel.saveArrayOfWords();
   };
 

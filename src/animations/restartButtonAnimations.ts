@@ -1,3 +1,4 @@
+import { globalData } from "../constants";
 import { timer } from "../utils";
 
 class restartButtonAnimation {
@@ -51,7 +52,10 @@ class restartButtonAnimation {
     this.rotateRestartIcon(element);
   };
 
-  addFlipTileAnimation = (tile: Element) => {
+  addFlipTileAnimation = (
+    tile: Element,
+    lastElementIndexesPosition: { [key: string]: number }
+  ) => {
     tile.classList.add("flipTileClearGrid");
     tile.addEventListener("transitionend", (target) => {
       const rowTarget = target.target as Element;
@@ -68,6 +72,16 @@ class restartButtonAnimation {
           if (this.validateTileColor(rowTarget)) {
             clearInterval(secondState);
             this.removeWhiteBoard(rowTarget);
+            const [rowPosition, tilePosition] = tile.children[0].id.split(".");
+            const { rowIndex, childElementIndex } = lastElementIndexesPosition;
+            if (
+              +rowPosition === +rowIndex &&
+              +tilePosition + 1 === childElementIndex
+            ) {
+              setTimeout(() => {
+                globalData.isAbleToType = true;
+              }, this.LONG_ANIMATION_BLOCK);
+            }
           }
         });
       }, this.DEATH_LONG_ANIMATION_DURATION);
@@ -89,7 +103,8 @@ class restartButtonAnimation {
   setFlipClearAnimation = (
     rowCollection: Element,
     rowCollectionIndex: number,
-    rowIndex: number
+    rowIndex: number,
+    lastElementIndexesPosition: { [key: string]: number }
   ) => {
     setTimeout(() => {
       setTimeout(() => {
@@ -99,34 +114,39 @@ class restartButtonAnimation {
           rowCollectionChild.classList.value !== "tile" &&
           rowCollection.classList.value === "row"
         ) {
-          this.addFlipTileAnimation(rowCollection);
+          this.addFlipTileAnimation(rowCollection, lastElementIndexesPosition);
         }
-        if (rowCollection.classList.value === "row") return;
-        this.addFlipTileAnimation(rowCollection);
+        if (rowCollection.classList.value === "row") {
+          return;
+        }
+        this.addFlipTileAnimation(rowCollection, lastElementIndexesPosition);
       }, timer(rowCollectionIndex, this.TIME_DIVIDER));
     }, timer(rowIndex, this.TIME_DIVIDER));
+  };
+
+  clearTilesState = (rowCollection: Element, rowCollectionIndex: number) => {
+    const clearArray = setInterval(() => {
+      rowCollection.className = "row";
+      const childNodes = rowCollection.childNodes;
+      childNodes.forEach((node) => {
+        const child = node as unknown as Element;
+        if (child.className !== "tile") {
+          child.textContent = "";
+          child.className = "tile";
+        }
+      });
+      if (rowCollection.className === "row") {
+        setTimeout(
+          () => clearInterval(clearArray),
+          timer(rowCollectionIndex, 2)
+        );
+      }
+    });
   };
 }
 
 export const tileAnimation = new restartButtonAnimation();
 export default restartButtonAnimation;
 
-// clearTilesState = (rowCollection: Element, rowCollectionIndex: number) => {
-//   const clearArray = setInterval(() => {
-//     rowCollection.className = "row";
-//     const childNodes = rowCollection.childNodes;
-//     childNodes.forEach((node) => {
-//       const child = node as unknown as Element;
-//       if (child.className !== "tile") {
-//         child.textContent = "";
-//         child.className = "tile";
-//       }
-//     });
-//     if (rowCollection.className === "row") {
-//       setTimeout(
-//         () => clearInterval(clearArray),
-//         timer(rowCollectionIndex, 2)
-//       );
-//     }
-//   });
-// };
+//get last element that is not equal to row
+// get last element from that position

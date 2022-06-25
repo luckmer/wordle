@@ -9,6 +9,7 @@ export const guessRows = [
 
 export class globalData {
   public static rowIndex = 0;
+  public static isAbleToType = true;
   public static gameRowIndex = 0;
   public static gameOver = false;
   public static secretWord = "";

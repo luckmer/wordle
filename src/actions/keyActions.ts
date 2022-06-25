@@ -26,7 +26,12 @@ class keyActionsClass extends tileAnimations {
   };
 
   handleClick = (letter: string) => {
-    if (globalData.gameRowIndex >= 5 || globalData.gameOver) return;
+    if (
+      globalData.gameRowIndex >= 5 ||
+      globalData.gameOver ||
+      !globalData.isAbleToType
+    )
+      return;
 
     const tile = document.getElementById(
       `${globalData.rowIndex}.${globalData.gameRowIndex}`
