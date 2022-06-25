@@ -26,7 +26,7 @@ export class RestartClass extends restartButtonAnimation {
       const gameRow = document.getElementById(`${rowIndex}`) as HTMLElement;
       const gameRowCollection = gameRow.querySelectorAll(".row");
       gameRowCollection.forEach((rowCollection, rowCollectionIndex) => {
-        this.clearTilesState(rowCollection, rowCollectionIndex);
+        this.setFlipClearAnimation(rowCollection, rowCollectionIndex, rowIndex);
       });
     });
   };

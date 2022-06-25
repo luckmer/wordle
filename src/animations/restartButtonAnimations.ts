@@ -1,8 +1,10 @@
 import { timer } from "../utils";
 
 class restartButtonAnimation {
+  readonly DEATH_LONG_ANIMATION_DURATION = 700;
   readonly SHORT_ANIMATION_BLOCK = 300;
   readonly LONG_ANIMATION_BLOCK = 300;
+  readonly TIME_DIVIDER = 2;
   removeWhiteBoard = (tile: Element) => tile.classList.remove("whiteBoard");
   addundoFlipTileAnimation = (tile: Element) => {
     tile.classList.add("undoflipTileClearGrid");
@@ -32,6 +34,7 @@ class restartButtonAnimation {
   };
 
   clearPrimaryColors = (target: Element) => {
+    target.classList.add("whiteBoard");
     target.classList.remove("correct");
     target.classList.remove("present");
     target.classList.remove("primary");
@@ -48,6 +51,29 @@ class restartButtonAnimation {
     this.rotateRestartIcon(element);
   };
 
+  addFlipTileAnimation = (tile: Element) => {
+    tile.classList.add("flipTileClearGrid");
+    tile.addEventListener("transitionend", (target) => {
+      const rowTarget = target.target as Element;
+      if (!rowTarget.classList.contains("flipTileClearGrid")) return;
+
+      setTimeout(() => {
+        const firstState = setInterval(() => {
+          this.clearPrimaryColors(rowTarget);
+          if (this.validateTileColor(rowTarget)) clearInterval(firstState);
+        });
+        this.unFlipClearAnimation(rowTarget);
+        const secondState = setInterval(() => {
+          this.clearPrimaryColors(rowTarget);
+          if (this.validateTileColor(rowTarget)) {
+            clearInterval(secondState);
+            this.removeWhiteBoard(rowTarget);
+          }
+        });
+      }, this.DEATH_LONG_ANIMATION_DURATION);
+    });
+  };
+
   unFlipClearAnimation = (target: Element) => {
     if (!target.classList.contains("flipTileClearGrid")) return;
     setTimeout(() => {
@@ -55,30 +81,52 @@ class restartButtonAnimation {
       this.clearTileContent(target);
       this.removeFlipTileAnimation(target);
       this.addundoFlipTileAnimation(target);
-      setTimeout(() => {
-        this.removeundoFlipTileAnimation(target);
-        this.removeWhiteBoard(target);
-      }, this.SHORT_ANIMATION_BLOCK);
+      this.removeundoFlipTileAnimation(target);
+      this.removeWhiteBoard(target);
     }, this.LONG_ANIMATION_BLOCK);
   };
 
-  clearTilesState = (rowCollection: Element, rowCollectionIndex: number) => {
-    const clearArray = setInterval(() => {
-      if (rowCollection.className !== "row") {
-        rowCollection.className = "row";
-      }
-      const childNodes = rowCollection.childNodes;
-      childNodes.forEach((node) => {
-        const child = node as unknown as Element;
-        child.textContent = "";
-        child.className = "tile";
-      });
-
-      setTimeout(() => clearInterval(clearArray), timer(rowCollectionIndex, 2));
-      this.clearPrimaryColors(rowCollection);
-    });
+  setFlipClearAnimation = (
+    rowCollection: Element,
+    rowCollectionIndex: number,
+    rowIndex: number
+  ) => {
+    setTimeout(() => {
+      setTimeout(() => {
+        const rowCollectionChild = rowCollection
+          .childNodes[0] as unknown as Element;
+        if (
+          rowCollectionChild.classList.value !== "tile" &&
+          rowCollection.classList.value === "row"
+        ) {
+          this.addFlipTileAnimation(rowCollection);
+        }
+        if (rowCollection.classList.value === "row") return;
+        this.addFlipTileAnimation(rowCollection);
+      }, timer(rowCollectionIndex, this.TIME_DIVIDER));
+    }, timer(rowIndex, this.TIME_DIVIDER));
   };
 }
 
 export const tileAnimation = new restartButtonAnimation();
 export default restartButtonAnimation;
+
+// clearTilesState = (rowCollection: Element, rowCollectionIndex: number) => {
+//   const clearArray = setInterval(() => {
+//     rowCollection.className = "row";
+//     const childNodes = rowCollection.childNodes;
+//     childNodes.forEach((node) => {
+//       const child = node as unknown as Element;
+//       if (child.className !== "tile") {
+//         child.textContent = "";
+//         child.className = "tile";
+//       }
+//     });
+//     if (rowCollection.className === "row") {
+//       setTimeout(
+//         () => clearInterval(clearArray),
+//         timer(rowCollectionIndex, 2)
+//       );
+//     }
+//   });
+// };
