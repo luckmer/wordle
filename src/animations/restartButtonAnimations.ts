@@ -147,6 +147,3 @@ class restartButtonAnimation {
 
 export const tileAnimation = new restartButtonAnimation();
 export default restartButtonAnimation;
-
-//get last element that is not equal to row
-// get last element from that position
