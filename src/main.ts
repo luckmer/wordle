@@ -4,7 +4,9 @@ import keyboardGenerator from "./generators/userKeyboard/keyboard";
 import randomWord from "./generators/randomWord/randomWordGenerator";
 import localStorage from "./localStorage/localStorage";
 import restart from "./actions/Restart";
+import settings from "./Settings/Settings";
 
+settings.initiateSettings();
 randomWord.generateRandomWord();
 localStorage.loadSavedArray();
 keyboardGenerator.keyboardGenerator();
