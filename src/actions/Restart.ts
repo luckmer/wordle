@@ -72,6 +72,10 @@ export class RestartClass extends restartButtonAnimation {
 
   initiateNewGame = () => {
     restartSvg.addEventListener("click", (e) => {
+      const hasNoText = globalData.guessRowsPanel
+        .map(({ words }) => words.filter((word) => word !== "").length)
+        .every((el) => el === 0);
+      if (hasNoText) return;
       globalData.clearGame = true;
       this.rotateRestartGameIcon(e);
       this.handleInitiateNewGame();

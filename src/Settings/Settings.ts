@@ -8,7 +8,6 @@ class SettingsClass {
   };
 
   initiateSettings = () => {
-    console.log(SettingsButton);
     (SettingsButton as Element).addEventListener(
       "click",
       this.handleControlSettings
