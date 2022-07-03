@@ -1,0 +1,24 @@
+.settings_container_modal {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  background-color: white;
+  display: none;
+}
+.settings_open {
+  animation: open 100ms ease-in-out;
+  display: block !important;
+}
+
+@keyframes open {
+  0% {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}

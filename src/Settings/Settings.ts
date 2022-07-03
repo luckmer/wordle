@@ -1,11 +1,8 @@
 const SettingsButton = document.querySelector(".settings_menu");
+const SettingsModal = document.querySelector(".settings_container_modal");
 
 class SettingsClass {
-  public static flag = false;
-  handleControlSettings = () => {
-    SettingsClass.flag = !SettingsClass.flag;
-    console.log(SettingsClass.flag);
-  };
+  handleControlSettings = () => SettingsModal?.classList.add("settings_open");
 
   initiateSettings = () => {
     (SettingsButton as Element).addEventListener(
