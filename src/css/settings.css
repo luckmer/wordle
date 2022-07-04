@@ -23,11 +23,13 @@
 .settings_container_sizer {
   max-width: 500px;
   width: 100%;
+  height: 100%;
+  margin: auto;
 }
 
 .settings_header_text h2 {
-  margin-top: 8px;
-  margin-left: 29px;
+  margin-top: -4px;
+  margin-left: 25px;
   font-weight: 700;
   font-size: 16px;
   letter-spacing: 0.5px;
@@ -76,6 +78,14 @@
 
 .close {
   width: 18px;
-  height: 18px;
+  height: 14px;
   object-fit: contain;
+  margin-top: -15px;
+}
+.settings_content_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #d3d6da;
+  padding: 16px 0px 13px 0px;
 }
