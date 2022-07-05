@@ -21,10 +21,11 @@ class SettingsClass {
         <div style="padding-right: 8px">
           <div style="font-size: 18px"> ${setting.header}</div>
           ${
-            setting.description &&
-            '<div style="font-size: 12px; color: #787c7e; margin-top: -2px">' +
-              setting.description +
-              "</div>"
+            setting.description
+              ? '<div style="font-size: 12px; color: #787c7e; margin-top: -2px">' +
+                setting.description +
+                "</div>"
+              : ""
           }
         </div>
         <div style="padding-right: 7px">
