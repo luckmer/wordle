@@ -67,3 +67,70 @@
   border: 2px solid #85c0f9;
   color: #fff !important;
 }
+
+.blackMode {
+  background-color: #121213 !important;
+}
+
+.blackMode div {
+  border-bottom-color: #3a3a3c !important;
+}
+
+.blackMode .mdl-switch__track {
+  background-color: #565758;
+}
+
+.mdl-switch.is-checked .mdl-switch__track {
+  background-color: #538d4e;
+}
+.mdl-switch__track {
+  position: absolute;
+  left: -4px;
+  top: 0px;
+  height: 20px;
+  width: 32px;
+  border-radius: 14px;
+  cursor: pointer;
+  background-color: #878a8c;
+}
+
+.mdl-switch__thumb {
+  width: 16px;
+  height: 16px;
+  left: -2px;
+}
+
+.is-checked .mdl-switch__thumb {
+  left: 10px !important;
+}
+
+.mdl-switch.is-checked .mdl-switch__thumb {
+  background-color: #fff;
+}
+
+.blackMode header {
+  border-bottom-color: #3a3a3c !important;
+}
+
+.blackMode span {
+  color: #fff !important;
+}
+
+.blackMode p {
+  color: #fff !important;
+}
+.blackMode h2 {
+  color: #fff !important;
+}
+
+.blackMode h1 {
+  color: #fff !important;
+}
+
+.blackMode .small {
+  color: #565758 !important;
+}
+.Dark {
+  position: relative;
+  top: -2px;
+}
