@@ -1,4 +1,5 @@
 import { globalData } from "../constants/globalData";
+import { SettingsGenerator } from "../generators/Settings/Settings";
 import {
   boardContainer,
   body,
@@ -9,18 +10,10 @@ import {
 } from "../imports";
 import localStoragePanel from "../localStorage/localStorage";
 
-class SettingsClass {
+class SettingsClass extends SettingsGenerator {
   public static flag = false;
   public static darkModeFlag = false;
   public static HighContrastModeFlag = false;
-  private settingsStructure = [
-    {
-      header: "Hard Mode",
-      description: "Any revealed hints must be used in subsequent guesses",
-    },
-    { header: "Dark Theme" },
-    { header: "High Contrast Mode", description: "For improved color vision" },
-  ];
 
   setDarkModeContrast = (darkMode: boolean) => {
     console.log(darkMode);
@@ -33,46 +26,6 @@ class SettingsClass {
     this.deleteDarkModeForBoard();
     body?.classList.remove("blackMode");
     SettingsModal?.classList.remove("blackMode");
-  };
-
-  initiateSettingsModal = () => {
-    const localStorageData = localStorage.getItem("words");
-    const darkMode = JSON.parse(localStorageData as string);
-
-    this.settingsStructure.forEach((setting, index) => {
-      const div = document.createElement("div");
-      const htmStructure = `<div class="settings_content_container">
-        <div>
-          <div style="font-size: 18px"><span  class=${setting.header}> ${
-        setting.header
-      } </span></div>
-          ${
-            setting.description
-              ? '<div class="small" style="font-size: 12px; color: #787c7e; margin-top: -2px">' +
-                setting.description +
-                "</div>"
-              : ""
-          }
-        </div>
-        <div>
-          ${
-            index === 1 && darkMode?.darkMode
-              ? `<label
-          class="mdl-switch mdl-js-switch mdl-js-ripple-effect"
-          for=switch-${index}>
-          <input type="checkbox" id="switch-${index}" class="mdl-switch__input" checked=${darkMode.darkMode}  />
-        </label>`
-              : `<label
-        class="mdl-switch mdl-js-switch mdl-js-ripple-effect"
-        for=switch-${index}>
-        <input type="checkbox" id="switch-${index}" class="mdl-switch__input"  />
-      </label>`
-          }
-        </div>
-      </div>`;
-      div.innerHTML = htmStructure;
-      settingsSection?.appendChild(div);
-    });
   };
 
   clearCloseAnimation = (SettingsModal: Element) => {
