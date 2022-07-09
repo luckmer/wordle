@@ -1,4 +1,4 @@
-import { globalData } from "../constants";
+import { globalData } from "../constants/globalData";
 import { timer } from "../utils";
 
 class restartButtonAnimation {
@@ -42,8 +42,9 @@ class restartButtonAnimation {
   };
 
   clearTileContent = (target: Element) => {
+    const darkMode = globalData.darkMode ? "tile dark_mode_border" : "tile";
     const rowChild = target.childNodes[0] as unknown as Element;
-    rowChild.classList.value = "tile";
+    rowChild.classList.value = darkMode;
     rowChild.textContent = "";
   };
 
@@ -108,10 +109,11 @@ class restartButtonAnimation {
   ) => {
     setTimeout(() => {
       setTimeout(() => {
+        const darkMode = globalData.darkMode ? "tile dark_mode_border" : "tile";
         const rowCollectionChild = rowCollection
           .childNodes[0] as unknown as Element;
         if (
-          rowCollectionChild.classList.value !== "tile" &&
+          rowCollectionChild.classList.value !== darkMode &&
           rowCollection.classList.value === "row"
         ) {
           this.addFlipTileAnimation(rowCollection, lastElementIndexesPosition);

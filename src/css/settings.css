@@ -97,3 +97,11 @@
   -moz-user-select: none;
   -ms-user-select: none;
 }
+
+.dark_mode_border {
+  border: 2px solid #3a3a3c !important;
+}
+
+.dark_mode_text_border {
+  border: 2px solid #565758 !important;
+}

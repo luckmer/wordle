@@ -1,4 +1,4 @@
-import { globalData } from "../constants";
+import { globalData } from "../constants/globalData";
 import tileAnimations from "../animations/tileAnimations";
 import dictionary from "../../json/dictionary.json";
 import localStoragePanel from "../localStorage/localStorage";

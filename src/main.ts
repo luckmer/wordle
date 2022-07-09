@@ -6,14 +6,10 @@ import localStorage from "./localStorage/localStorage";
 import restart from "./actions/Restart";
 import settings from "./Settings/Settings";
 
-settings.initiateSettings();
 randomWord.generateRandomWord();
 localStorage.loadSavedArray();
 keyboardGenerator.keyboardGenerator();
 keyGenerator.keyGenerator();
 guessRows.generateRows();
 restart.initiateNewGame();
-
-//TODO add dark theme
-//TODO add translate
-//TODO  add statistics
+settings.initiateSettings();

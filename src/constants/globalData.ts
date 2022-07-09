@@ -11,6 +11,8 @@ export class globalData {
   public static rowIndex = 0;
   public static isAbleToType = true;
   public static gameRowIndex = 0;
+  public static darkMode = false;
+  public static HighContrastModeFlag = false;
   public static gameOver = false;
   public static secretWord = "";
   public static guessRowsPanel = guessRows;

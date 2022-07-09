@@ -1,9 +1,6 @@
 import { tileAnimation } from "../../animations/tileAnimations";
-import { globalData } from "../../constants";
-
-export const boardContainer = document.querySelector(
-  ".board"
-) as unknown as Element;
+import { globalData } from "../../constants/globalData";
+import { boardContainer } from "../../imports";
 
 class guessRowsGenerator {
   generatePTag = (
