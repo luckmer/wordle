@@ -1,4 +1,20 @@
-import { settingsSection } from "../../imports";
+import { globalData } from "../../constants/globalData";
+import {
+  settingsSection,
+  settingsExitButton,
+  settingsReloadButton,
+  settingsOpenButton,
+} from "../../imports";
+
+export enum closeSettingsDarkModeStatus {
+  DARK = "true",
+  LIGHT = "false",
+}
+
+export interface SettingsConfig {
+  type: string;
+  img: string;
+}
 
 export class SettingsGenerator {
   private settingsStructure = [
@@ -9,6 +25,45 @@ export class SettingsGenerator {
     { header: "Dark Theme" },
     { header: "High Contrast Mode", description: "For improved color vision" },
   ];
+
+  private closeSettingIcons: {
+    [key in closeSettingsDarkModeStatus]: SettingsConfig;
+  } = {
+    [closeSettingsDarkModeStatus.DARK]: {
+      type: "darkMode",
+      img: "./FontAwesomeIcons/x-solid-white.svg",
+    },
+    [closeSettingsDarkModeStatus.LIGHT]: {
+      type: "lightMode",
+      img: "./FontAwesomeIcons/x-solid.svg",
+    },
+  };
+
+  private openSettingIcons: {
+    [key in closeSettingsDarkModeStatus]: SettingsConfig;
+  } = {
+    [closeSettingsDarkModeStatus.DARK]: {
+      type: "darkMode",
+      img: "./FontAwesomeIcons/gear-solid-white.svg",
+    },
+    [closeSettingsDarkModeStatus.LIGHT]: {
+      type: "lightMode",
+      img: "./FontAwesomeIcons/gear-solid.svg",
+    },
+  };
+
+  private reloadSettingIcons: {
+    [key in closeSettingsDarkModeStatus]: SettingsConfig;
+  } = {
+    [closeSettingsDarkModeStatus.DARK]: {
+      type: "darkMode",
+      img: "./FontAwesomeIcons/reload-white.svg",
+    },
+    [closeSettingsDarkModeStatus.LIGHT]: {
+      type: "lightMode",
+      img: "./FontAwesomeIcons/reload.svg",
+    },
+  };
 
   initiateSettingsModal = () => {
     const localStorageData = localStorage.getItem("words");
@@ -48,6 +103,31 @@ export class SettingsGenerator {
       div.innerHTML = htmStructure;
       settingsSection?.appendChild(div);
     });
+  };
+
+  initiateCloseSettingsButton = () => {
+    const darkMode = globalData.darkMode;
+    const settingsIcon =
+      this.closeSettingIcons[
+        darkMode as unknown as closeSettingsDarkModeStatus
+      ];
+    settingsExitButton!.innerHTML = `<img type="svg" src=${settingsIcon.img} alt="" class="close" />`;
+  };
+
+  initiateRestartSettingsButton = () => {
+    const darkMode = globalData.darkMode;
+    const settingsIcon =
+      this.reloadSettingIcons[
+        darkMode as unknown as closeSettingsDarkModeStatus
+      ];
+    settingsReloadButton!.innerHTML = `<img type="svg" src=${settingsIcon.img} alt="" class="restart" />`;
+  };
+
+  initiateOpenSettingsButton = () => {
+    const darkMode = globalData.darkMode;
+    const settingsIcon =
+      this.openSettingIcons[darkMode as unknown as closeSettingsDarkModeStatus];
+    settingsOpenButton!.innerHTML = `<img type="svg" src=${settingsIcon.img} alt="" />`;
   };
 }
 const settingsGenerator = new SettingsGenerator();

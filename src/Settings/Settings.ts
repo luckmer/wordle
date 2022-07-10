@@ -3,8 +3,8 @@ import { SettingsGenerator } from "../generators/Settings/Settings";
 import {
   boardContainer,
   body,
-  closeSettingsButton,
-  SettingsButton,
+  closesettingsButton,
+  settingsButton,
   SettingsModal,
   settingsSection,
 } from "../imports";
@@ -16,7 +16,6 @@ class SettingsClass extends SettingsGenerator {
   public static HighContrastModeFlag = false;
 
   setDarkModeContrast = (darkMode: boolean) => {
-    console.log(darkMode);
     if (darkMode) {
       this.setDarkModeForBoard();
       body?.classList.add("blackMode");
@@ -72,6 +71,9 @@ class SettingsClass extends SettingsGenerator {
   DarkModesettings = () => {
     SettingsClass.darkModeFlag = !SettingsClass.darkModeFlag;
     globalData.darkMode = !globalData.darkMode;
+    this.initiateCloseSettingsButton();
+    this.initiateOpenSettingsButton();
+    this.initiateRestartSettingsButton();
     localStoragePanel.saveArrayOfWords();
     this.setDarkModeContrast(globalData.darkMode);
   };
@@ -90,11 +92,15 @@ class SettingsClass extends SettingsGenerator {
 
   initiateSettings = () => {
     this.initiateSettingsModal();
-    (SettingsButton as Element).addEventListener(
+    this.initiateCloseSettingsButton();
+    this.initiateOpenSettingsButton();
+    this.initiateRestartSettingsButton();
+
+    (settingsButton as Element).addEventListener(
       "click",
       this.handleOpenSettings
     );
-    (closeSettingsButton as Element).addEventListener(
+    (closesettingsButton as Element).addEventListener(
       "click",
       this.handleCloseSettings
     );
