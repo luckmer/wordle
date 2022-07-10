@@ -71,9 +71,8 @@ class tileAnimationsClass {
           "animationend",
           () => {
             tile.classList.remove("dance");
-            if (index === this.END_OF_ARRAY_INDEX) {
-              this.createErrorAlert(gameDictionary.YOU_WON);
-            }
+            // if (index === this.END_OF_ARRAY_INDEX) {
+            // }
           },
           true
         );
@@ -162,6 +161,11 @@ class tileAnimationsClass {
         true
       );
     });
+
+    setTimeout(() => {
+      if (!globalData.gameOver) return;
+      this.createErrorAlert(gameDictionary.YOU_WON);
+    }, 1800);
   };
 
   setColorByTile = (props: IColorProps) => {
