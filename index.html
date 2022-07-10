@@ -1,11 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script>
+      const storage = localStorage.getItem("words");
+      const index = JSON.parse(storage);
+      const html = document.querySelector("html");
+      index.darkMode
+        ? html.classList.add("blackMode")
+        : html.classList.remove("blackMode");
+    </script>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-control" content="no-cache" />
+    <script src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
     <link rel="stylesheet" href="src/css/style.css" />
     <link rel="stylesheet" href="src/css/colors.css" />
+    <link rel="stylesheet" href="src/css/settings.css" />
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
       rel="stylesheet"
@@ -15,24 +34,26 @@
   <body>
     <main>
       <header class="header">
-        <div class="settings_container">
-          <img
-            type="svg"
-            src="./FontAwesomeIcons/reload.svg"
-            alt=""
-            class="restart"
-          />
-        </div>
+        <div class="settings_container"></div>
         <div class="header_container">
           <h1>WORDLE</h1>
         </div>
-        <div class="settings_container">
-          <img type="svg" src="./FontAwesomeIcons/gear-solid.svg" alt="" />
-        </div>
+        <div class="settings_container settings_menu"></div>
       </header>
       <div class="board"></div>
       <div class="row_container"></div>
     </main>
+    <div class="settings_container_modal disable-select">
+      <div class="settings_container_sizer">
+        <div class="settings_header">
+          <div class="settings_header_text">
+            <h2>SETTINGS</h2>
+          </div>
+          <div class="settings_container settings_menu close_settings"></div>
+        </div>
+        <section style="margin-top: -15px" class="settings_sections"></section>
+      </div>
+    </div>
     <div class="toaster" id="game-toaster"></div>
     <script type="module" src="./src/main.ts"></script>
   </body>

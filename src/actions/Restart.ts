@@ -1,9 +1,9 @@
-const restartSvg = document.querySelector(".restart") as Element;
 import randomWord from "../generators/randomWord/randomWordGenerator";
-import { globalData } from "../constants";
+import { globalData } from "../constants/globalData";
 import localStoragePanel from "../localStorage/localStorage";
 import { timer } from "../utils";
 import restartButtonAnimation from "../animations/restartButtonAnimations";
+import { restartSvg } from "../imports";
 
 export class RestartClass extends restartButtonAnimation {
   clearGloblaDataState = () => {
@@ -72,6 +72,10 @@ export class RestartClass extends restartButtonAnimation {
 
   initiateNewGame = () => {
     restartSvg.addEventListener("click", (e) => {
+      const hasNoText = globalData.guessRowsPanel
+        .map(({ words }) => words.filter((word) => word !== "").length)
+        .every((el) => el === 0);
+      if (hasNoText) return;
       globalData.clearGame = true;
       this.rotateRestartGameIcon(e);
       this.handleInitiateNewGame();

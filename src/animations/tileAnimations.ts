@@ -1,8 +1,7 @@
-import { globalData } from "../constants";
+import { globalData } from "../constants/globalData";
 import { gameDictionary } from "../constants/notifications";
+import { buttonsCollections, toaster } from "../imports";
 import { matchTheSameElements, removeDuplicate, timer } from "../utils";
-
-const toaster = document.querySelector(".toaster") as Element;
 
 interface IColorProps {
   wordsPerRow: string;
@@ -20,8 +19,20 @@ class tileAnimationsClass {
   readonly END_OF_ARRAY_INDEX = 4;
   readonly TIME_DIVIDER = 2;
 
-  setBlackBorder = (tile: Element) => tile.classList.add("black_border");
-  removeBlackBorder = (tile: Element) => tile.classList.remove("black_border");
+  setBlackBorder = (tile: Element) => {
+    if (globalData.darkMode) {
+      tile.classList.add("dark_mode_text_border");
+      return;
+    }
+    tile.classList.add("black_border");
+  };
+  removeBlackBorder = (tile: Element) => {
+    if (globalData.darkMode) {
+      tile.classList.remove("dark_mode_text_border");
+      return;
+    }
+    tile.classList.remove("black_border");
+  };
   removeFlipAnimation = (tile: Element) => tile.classList.remove("flip");
   setFlipAnimation = (tile: Element) => tile.classList.add("flip");
 
@@ -123,7 +134,7 @@ class tileAnimationsClass {
     if (wordsPerRow === "") return;
     const buttonColors: Array<{ color: string; word: string }> = [];
     const word = rowData.words.join("").toLocaleLowerCase();
-    const buttonsCollections = document.querySelectorAll("button");
+
     const wordsWithNoCopies = removeDuplicate(wordsPerRow);
     const secretWord = globalData.secretWord;
 
@@ -181,7 +192,6 @@ class tileAnimationsClass {
       .join("");
 
     if (wordsPerRow === "") return;
-    const buttonsCollections = document.querySelectorAll("button");
     const wordsWithNoCopies = removeDuplicate(wordsPerRow);
     const secretWord = globalData.secretWord;
     const buttonColors: Array<{ color: string; word: string }> = [];

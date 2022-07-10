@@ -1,4 +1,4 @@
-import { globalData } from "../constants";
+import { globalData } from "../constants/globalData";
 
 interface IObjectInterface {
   rowIndex: number;
@@ -18,6 +18,7 @@ class localStorageClass {
     Object.keys(globalData).forEach(
       (el, i) => (objects[el] = Object.values(globalData)[i])
     );
+
     localStorage.setItem("words", JSON.stringify(objects));
   };
 
@@ -25,6 +26,7 @@ class localStorageClass {
     const localStorageData = localStorage.getItem("words");
     if (!localStorageData) return;
     const index = JSON.parse(localStorageData);
+    globalData.darkMode = index.darkMode;
     globalData.guessRowsPanel = index.guessRowsPanel;
     globalData.rowIndex = index.rowIndex;
     globalData.gameRowIndex = index.gameRowIndex;
