@@ -155,7 +155,11 @@ class tileAnimationsClass {
               this.SHORT_ANIMATION_BLOCK
             );
           }
-          if (index === this.END_OF_ARRAY_INDEX && word === secretWord)
+          if (
+            index === this.END_OF_ARRAY_INDEX &&
+            word === secretWord &&
+            globalData.gameOver
+          )
             this.jumpTile(rowCollection);
         },
         true
