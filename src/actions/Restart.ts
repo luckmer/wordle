@@ -1,5 +1,5 @@
 import randomWord from "../generators/randomWord/randomWordGenerator";
-import { globalData } from "../constants/globalData";
+import { globalData } from "../globalData/globalData";
 import localStoragePanel from "../localStorage/localStorage";
 import { timer } from "../utils";
 import restartButtonAnimation from "../animations/restartButtonAnimations";

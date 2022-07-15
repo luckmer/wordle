@@ -1,6 +1,7 @@
-import { globalData } from "../constants/globalData";
+import { globalData } from "../globalData/globalData";
 
 interface IObjectInterface {
+  HighContrastModeFlag: boolean;
   rowIndex: number;
   gameRowIndex: number;
   gameOver: boolean;
@@ -26,6 +27,7 @@ class localStorageClass {
     const localStorageData = localStorage.getItem("words");
     if (!localStorageData) return;
     const index = JSON.parse(localStorageData);
+    globalData.HighContrastModeFlag = index.HighContrastModeFlag;
     globalData.darkMode = index.darkMode;
     globalData.guessRowsPanel = index.guessRowsPanel;
     globalData.rowIndex = index.rowIndex;

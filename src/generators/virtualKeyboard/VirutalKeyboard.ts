@@ -1,4 +1,4 @@
-import { globalData } from "../../constants/globalData";
+import { globalData } from "../../globalData/globalData";
 import keyActionsClass from "../../actions/keyActions";
 import { buttonsContainer } from "../../imports";
 

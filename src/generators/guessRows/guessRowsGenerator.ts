@@ -1,5 +1,5 @@
 import { tileAnimation } from "../../animations/tileAnimations";
-import { globalData } from "../../constants/globalData";
+import { globalData } from "../../globalData/globalData";
 import { boardContainer } from "../../imports";
 
 class guessRowsGenerator {

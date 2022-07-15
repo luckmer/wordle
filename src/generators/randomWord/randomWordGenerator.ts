@@ -1,5 +1,5 @@
 import words from "../../../json/words.json";
-import { globalData } from "../../constants/globalData";
+import { globalData } from "../../globalData/globalData";
 
 class randomWordGenerator {
   returnRandomWord = () => {

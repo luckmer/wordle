@@ -1,4 +1,4 @@
-import { globalData } from "../constants/globalData";
+import { globalData } from "../globalData/globalData";
 import { gameDictionary } from "../constants/notifications";
 import { buttonsCollections, toaster } from "../imports";
 import { matchTheSameElements, removeDuplicate, timer } from "../utils";
@@ -71,8 +71,6 @@ class tileAnimationsClass {
           "animationend",
           () => {
             tile.classList.remove("dance");
-            // if (index === this.END_OF_ARRAY_INDEX) {
-            // }
           },
           true
         );
