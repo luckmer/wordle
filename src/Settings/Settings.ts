@@ -26,23 +26,29 @@ class SettingsClass extends SettingsActions {
       true,
       (nodeChild) => nodeChild.classList.add("Blindcorrect")
     );
-    this.controlHighContrastMode(HighContrastSwitches, false, (nodeChild) =>
-      nodeChild.classList.add("Blindcorrect")
-    );
+
+    this.controlHighContrastMode(HighContrastSwitches, false, (nodeChild) => {
+      nodeChild.classList.add("Blindcorrect");
+    });
   }
 
   removeHighContrastMode(
     lastElement: Element,
-    HighContrastSwitches: NodeListOf<Element>
+    HighContrastSwitches?: NodeListOf<Element>,
+    locklastElement?: boolean
   ) {
-    this.controlHighContrastMode(
-      lastElement.childNodes as NodeListOf<Element>,
-      true,
-      (nodeChild) => nodeChild.classList.remove("Blindcorrect")
-    );
-    this.controlHighContrastMode(HighContrastSwitches, false, (nodeChild) => {
-      nodeChild.classList.remove("Blindcorrect");
-    });
+    if (!locklastElement) {
+      this.controlHighContrastMode(
+        lastElement.childNodes as NodeListOf<Element>,
+        true,
+        (nodeChild) => nodeChild.classList.remove("Blindcorrect")
+      );
+    }
+    if (HighContrastSwitches) {
+      this.controlHighContrastMode(HighContrastSwitches, false, (nodeChild) => {
+        nodeChild.classList.remove("Blindcorrect");
+      });
+    }
   }
 
   controlHighContrastMode = (
@@ -65,8 +71,7 @@ class SettingsClass extends SettingsActions {
         const nodeChild = node as Element;
         if (
           nodeChild.classList &&
-          nodeChild.classList.contains("mdl-switch__track") &&
-          element.classList.contains("is-checked")
+          nodeChild.classList.contains("mdl-switch__track")
         ) {
           callback(nodeChild);
         }
@@ -89,12 +94,12 @@ class SettingsClass extends SettingsActions {
   localStorageDarkModeLoader = () =>
     this.setDarkModeContrast(globalData.darkMode);
 
-  DarkModesettings = () => {
+  DarkModeSettings = () => {
     this.initiateCloseSettingsButton();
     this.initiateOpenSettingsButton();
     this.initiateRestartSettingsButton();
     localStoragePanel.saveArrayOfWords();
-    this.initiateDarkThemeBackground(1);
+    this.initiateDarkThemeBackground(0);
     this.setDarkModeContrast(globalData.darkMode);
   };
 
@@ -104,8 +109,9 @@ class SettingsClass extends SettingsActions {
       childNodes.forEach((childNode) => {
         const firstChild = childNode.firstChild as Element;
         const textContent = childNode.textContent;
-        if (textContent !== "")
+        if (textContent !== "") {
           firstChild.classList.add("dark_mode_text_border");
+        }
         firstChild.classList.add("dark_mode_border");
       });
     });
@@ -124,6 +130,7 @@ class SettingsClass extends SettingsActions {
   initiateDarkThemeBackground = (index: number) => {
     const HighContrastSwitches = document.querySelectorAll(".mdl-switch");
     const lastElement = HighContrastSwitches[index];
+
     this.controlHighContrastMode(
       lastElement.childNodes as NodeListOf<Element>,
       true,
@@ -135,17 +142,22 @@ class SettingsClass extends SettingsActions {
     );
   };
 
-  HighContrastModeSettings = () => {
+  initiateHighContrastModeColor = () => {
     const HighContrastSwitches = document.querySelectorAll(".mdl-switch");
     const lastElement = HighContrastSwitches[HighContrastSwitches.length - 1];
     this.removeHighContrastMode(lastElement, HighContrastSwitches);
-    if (SettingsActions.HighContrastModeFlag) {
+    if (globalData.HighContrastModeFlag) {
       const HighContrastSwitches = document.querySelectorAll(".mdl-switch");
       const lastElement = HighContrastSwitches[HighContrastSwitches.length - 1];
       this.addHighContrastMode(lastElement, HighContrastSwitches);
-      return;
+      if (!globalData.darkMode) {
+        const darkModeElement = HighContrastSwitches[0];
+        this.removeHighContrastMode(darkModeElement);
+      }
     }
   };
+
+  HighContrastModeSettings = () => this.initiateHighContrastModeColor();
 
   initiateSettings = () => {
     this.localStorageDarkModeLoader();
@@ -153,11 +165,11 @@ class SettingsClass extends SettingsActions {
     this.initiateCloseSettingsButton();
     this.initiateOpenSettingsButton();
     this.initiateRestartSettingsButton();
-    const DarkMode = settingsSection!.querySelector("#switch-1");
-    const HighContrastMode = settingsSection!.querySelector("#switch-2");
 
     (settingsButton as Element).addEventListener("click", () => {
-      this.initiateDarkThemeBackground(1);
+      this.initiateDarkThemeBackground(0);
+      this.initiateHighContrastModeColor();
+
       this.handleOpenSettings();
     });
 
@@ -169,11 +181,14 @@ class SettingsClass extends SettingsActions {
           false
         );
       });
-      this.initiateDarkThemeBackground(1);
+      this.initiateDarkThemeBackground(0);
     });
 
+    const DarkMode = settingsSection!.querySelector("#switch-1");
+    const HighContrastMode = settingsSection!.querySelector("#switch-2");
+
     DarkMode!.addEventListener("change", () =>
-      this.handleSetDarkModeSettings(() => this.DarkModesettings())
+      this.handleSetDarkModeSettings(() => this.DarkModeSettings())
     );
 
     HighContrastMode!.addEventListener("change", () =>

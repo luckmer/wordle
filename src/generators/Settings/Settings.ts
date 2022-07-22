@@ -19,8 +19,8 @@ export interface SettingsConfig {
 export class SettingsGenerator {
   private settingsStructure = [
     {
-      header: "Hard Mode",
-      description: "Any revealed hints must be used in subsequent guesses",
+      header: "Settings",
+      description: "Feel free to use",
     },
     { header: "Dark Theme" },
     { header: "High Contrast Mode", description: "For improved color vision" },
@@ -92,11 +92,19 @@ export class SettingsGenerator {
           for=switch-${index}>
           <input type="checkbox" id="switch-${index}" class="mdl-switch__input" checked=${darkMode.darkMode}  />
         </label>`
-              : `<label
-        class="mdl-switch mdl-js-switch mdl-js-ripple-effect"
-        for=switch-${index}>
-        <input type="checkbox" id="switch-${index}" class="mdl-switch__input"  />
-      </label>`
+              : index === 2 && darkMode.HighContrastModeFlag
+              ? `<label
+              class="mdl-switch mdl-js-switch mdl-js-ripple-effect"
+              for=switch-${index}>
+              <input type="checkbox" id="switch-${index}" class="mdl-switch__input"  checked=${darkMode.HighContrastModeFlag} />
+            </label>`
+              : setting.header !== "Settings"
+              ? `<label
+            class="mdl-switch mdl-js-switch mdl-js-ripple-effect"
+            for=switch-${index}>
+            <input type="checkbox" id="switch-${index}" class="mdl-switch__input"  />
+          </label>`
+              : ""
           }
         </div>
       </div>`;
