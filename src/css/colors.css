@@ -1,5 +1,5 @@
 .correct {
-  background: #6aaa64;
+  background: #6aaa64 !important;
   color: #fff !important;
 }
 
@@ -9,7 +9,7 @@
 }
 
 .present {
-  background: #c9b458;
+  background: #c9b458 !important;
   color: #fff !important;
 }
 
@@ -19,13 +19,23 @@
 }
 
 .primary {
-  background: #787c7e;
+  background: #3a3a3c;
   color: #fff !important;
 }
 
 .primary p {
-  border: 2px solid #787c7e !important;
+  border: 2px solid #3a3a3c;
   color: #fff !important;
+}
+
+.lightPrimary {
+  background: #787c7e;
+  color: #fff;
+}
+
+.lightPrimary p {
+  border: 2px solid #787c7e !important;
+  color: #fff;
 }
 
 .darkCorrect {
@@ -39,12 +49,12 @@
 }
 
 .darkPresent {
-  background: #b59f3b;
+  background: #b59f3b !important ;
   color: #fff !important;
 }
 
 .darkPresent p {
-  border: 2px solid #b59f3b;
+  border: 2px solid #b59f3b !important;
   color: #fff !important;
 }
 
@@ -54,17 +64,17 @@
 }
 
 .Blindcorrect p {
-  border: 2px solid #f5793a;
+  border: 2px solid #f5793a !important;
   color: #fff !important;
 }
 
 .blindPresent {
-  background: #85c0f9;
+  background: #85c0f9 !important;
   color: #fff !important;
 }
 
 .blindPresent p {
-  border: 2px solid #85c0f9;
+  border: 2px solid #85c0f9 !important;
   color: #fff !important;
 }
 

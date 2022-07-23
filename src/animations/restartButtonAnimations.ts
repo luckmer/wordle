@@ -21,7 +21,9 @@ class restartButtonAnimation {
     return (
       !rowTarget.classList.contains("correct") &&
       !rowTarget.classList.contains("present") &&
-      !rowTarget.classList.contains("primary")
+      !rowTarget.classList.contains("primary") &&
+      !rowTarget.classList.contains("Blindcorrect") &&
+      !rowTarget.classList.contains("blindPresent")
     );
   };
 
@@ -39,6 +41,8 @@ class restartButtonAnimation {
     target.classList.remove("correct");
     target.classList.remove("present");
     target.classList.remove("primary");
+    target.classList.remove("Blindcorrect");
+    target.classList.remove("blindPresent");
   };
 
   clearTileContent = (target: Element) => {

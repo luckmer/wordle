@@ -2,6 +2,7 @@ import { globalData } from "../globalData/globalData";
 import {
   boardContainer,
   body,
+  buttonsContainer,
   closesettingsButton,
   settingsButton,
   SettingsModal,
@@ -51,6 +52,24 @@ class SettingsClass extends SettingsActions {
     }
   }
 
+  setBoardMainPanel = (
+    callback: (
+      firstChild: Element,
+      textContent: string | null,
+      childRow: Element
+    ) => void
+  ) => {
+    Object.values(boardContainer.childNodes).forEach((child) => {
+      const childNodes = Object.values(child.childNodes);
+      childNodes.forEach((childNode) => {
+        const firstChild = childNode.firstChild as Element;
+        const textContent = childNode.textContent;
+        const childRow = childNode as Element;
+        callback(firstChild, textContent, childRow);
+      });
+    });
+  };
+
   controlHighContrastMode = (
     element: NodeListOf<Element>,
     flag: boolean,
@@ -80,6 +99,7 @@ class SettingsClass extends SettingsActions {
   };
 
   setDarkModeContrast = (darkMode: boolean) => {
+    this.setDarkModeForVirtualKeyboard();
     if (darkMode) {
       this.setDarkModeForBoard();
       body?.classList.add("blackMode");
@@ -103,27 +123,63 @@ class SettingsClass extends SettingsActions {
     this.setDarkModeContrast(globalData.darkMode);
   };
 
-  setDarkModeForBoard = () => {
-    Object.values(boardContainer.childNodes).forEach((child) => {
-      const childNodes = Object.values(child.childNodes);
-      childNodes.forEach((childNode) => {
-        const firstChild = childNode.firstChild as Element;
-        const textContent = childNode.textContent;
-        if (textContent !== "") {
-          firstChild.classList.add("dark_mode_text_border");
+  setDarkModeForVirtualKeyboard = () => {
+    const darkMode = globalData.darkMode;
+    const virtualKeyCaps = buttonsContainer.childNodes;
+    virtualKeyCaps.forEach((keyCap) => {
+      keyCap.childNodes.forEach((node) => {
+        if (darkMode) {
+          const nodeElement = node as Element;
+          nodeElement.classList.add("darkKeyCaps");
+        } else {
+          const nodeElement = node as Element;
+          nodeElement.classList.remove("darkKeyCaps");
         }
-        firstChild.classList.add("dark_mode_border");
       });
     });
   };
 
+  setDarkModeForBoard = () => {
+    this.setBoardMainPanel((firstChild, textContent, childRow) => {
+      if (textContent !== "") {
+        childRow.classList.remove("lightPrimary");
+        firstChild.classList.add("dark_mode_text_border");
+      }
+      firstChild.classList.add("dark_mode_border");
+    });
+  };
+
+  setHighContrastModeForBoard = () => {
+    this.setBoardMainPanel(({}, _, childRow) => {
+      if (childRow.classList.contains("correct")) {
+        childRow.classList.add("Blindcorrect");
+      }
+      if (childRow.classList.contains("present")) {
+        childRow.classList.add("blindPresent");
+      }
+    });
+  };
+
+  deleteHighContrastModeForBoard = () => {
+    this.setBoardMainPanel(({}, _, childRow) => {
+      if (childRow.classList.contains("Blindcorrect")) {
+        childRow.classList.add("correct");
+        childRow.classList.remove("Blindcorrect");
+      }
+
+      if (childRow.classList.contains("blindPresent")) {
+        childRow.classList.add("present");
+        childRow.classList.remove("blindPresent");
+      }
+    });
+  };
+
   deleteDarkModeForBoard = () => {
-    Object.values(boardContainer.childNodes).forEach((child) => {
-      const childNodes = Object.values(child.childNodes);
-      childNodes.forEach((childNode) => {
-        const firstChild = childNode.firstChild as Element;
-        firstChild.classList.remove("dark_mode_border");
-      });
+    this.setBoardMainPanel((firstChild, textContent, childRow) => {
+      if (textContent !== "" && childRow.classList.contains("primary")) {
+        childRow.classList.add("lightPrimary");
+      }
+      firstChild.classList.remove("dark_mode_border");
     });
   };
 
@@ -146,15 +202,19 @@ class SettingsClass extends SettingsActions {
     const HighContrastSwitches = document.querySelectorAll(".mdl-switch");
     const lastElement = HighContrastSwitches[HighContrastSwitches.length - 1];
     this.removeHighContrastMode(lastElement, HighContrastSwitches);
+
     if (globalData.HighContrastModeFlag) {
       const HighContrastSwitches = document.querySelectorAll(".mdl-switch");
       const lastElement = HighContrastSwitches[HighContrastSwitches.length - 1];
       this.addHighContrastMode(lastElement, HighContrastSwitches);
+      this.setHighContrastModeForBoard();
+
       if (!globalData.darkMode) {
         const darkModeElement = HighContrastSwitches[0];
         this.removeHighContrastMode(darkModeElement);
+        this.deleteHighContrastModeForBoard();
       }
-    }
+    } else this.deleteHighContrastModeForBoard();
   };
 
   HighContrastModeSettings = () => this.initiateHighContrastModeColor();
@@ -192,7 +252,9 @@ class SettingsClass extends SettingsActions {
     );
 
     HighContrastMode!.addEventListener("change", () =>
-      this.handleSetHighContrastMode(() => this.HighContrastModeSettings())
+      this.handleSetHighContrastMode(() => {
+        this.HighContrastModeSettings();
+      })
     );
   };
 }

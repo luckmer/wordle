@@ -76,6 +76,11 @@
   }
 }
 
+.darkKeyCaps {
+  background-color: #818384 !important;
+  color: #fff;
+}
+
 .close {
   width: 18px;
   height: 14px;
@@ -103,5 +108,5 @@
 }
 
 .dark_mode_text_border {
-  border: 2px solid #565758 !important;
+  border: 2px solid #3a3a3c;
 }

@@ -171,19 +171,41 @@ class tileAnimationsClass {
   };
 
   setColorByTile = (props: IColorProps) => {
-    const { wordsPerRow, secretWord, index, row } = props;
+    const { wordsPerRow, index, row } = props;
     const { buttonColors = [], wordsWithNoCopies } = props;
     if (wordsPerRow.length < this.BOTTOM_OF_GAME_GRID) return;
+
+    const correctAnswerColor = globalData.HighContrastModeFlag
+      ? "Blindcorrect"
+      : "correct";
+
+    const presentAnswerColor = globalData.HighContrastModeFlag
+      ? "blindPresent"
+      : "present";
+
+    const secretWord = globalData.secretWord;
+    console.log(secretWord, wordsPerRow);
+
+    console.log(secretWord[index] === wordsPerRow[index]);
+    console.log(secretWord[index], wordsPerRow[index]);
+
     if (secretWord[index] === wordsPerRow[index]) {
-      row.classList.add("correct");
-      buttonColors.push({ color: "correct", word: row.textContent as string });
+      row.className = "row " + correctAnswerColor;
+      buttonColors.push({
+        color: correctAnswerColor,
+        word: row.textContent as string,
+      });
       return;
     }
     if (secretWord.includes(wordsWithNoCopies[index])) {
-      row.classList.add("present");
-      buttonColors.push({ color: "present", word: row.textContent as string });
+      row.className = "row " + presentAnswerColor;
+      buttonColors.push({
+        color: presentAnswerColor,
+        word: row.textContent as string,
+      });
       return;
     }
+
     row.classList.add("primary");
     buttonColors.push({ color: "primary", word: row.textContent as string });
   };

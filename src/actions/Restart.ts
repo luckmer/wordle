@@ -10,7 +10,7 @@ export class RestartClass extends restartButtonAnimation {
     globalData.rowIndex = 0;
     globalData.gameRowIndex = 0;
     globalData.gameOver = false;
-    globalData.secretWord = randomWord.returnRandomWord();
+    globalData.secretWord = "";
     globalData.guessRowsPanel = [
       { words: ["", "", "", "", ""], acceptedWord: false },
       { words: ["", "", "", "", ""], acceptedWord: false },
@@ -19,6 +19,7 @@ export class RestartClass extends restartButtonAnimation {
       { words: ["", "", "", "", ""], acceptedWord: false },
       { words: ["", "", "", "", ""], acceptedWord: false },
     ];
+    globalData.secretWord = randomWord.returnRandomWord();
   };
 
   clearGameState = () => {
@@ -64,6 +65,7 @@ export class RestartClass extends restartButtonAnimation {
   };
 
   handleInitiateNewGame = () => {
+    globalData.secretWord = "";
     this.clearGameState();
     this.clearKeyBoardState();
     this.clearGloblaDataState();
