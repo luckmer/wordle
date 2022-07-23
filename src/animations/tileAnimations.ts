@@ -190,7 +190,10 @@ class tileAnimationsClass {
     console.log(secretWord[index], wordsPerRow[index]);
 
     if (secretWord[index] === wordsPerRow[index]) {
-      row.className = "row " + correctAnswerColor;
+      if (row.classList.contains(presentAnswerColor)) {
+        row.classList.remove(presentAnswerColor);
+      }
+      row.classList.add(correctAnswerColor);
       buttonColors.push({
         color: correctAnswerColor,
         word: row.textContent as string,
@@ -198,7 +201,10 @@ class tileAnimationsClass {
       return;
     }
     if (secretWord.includes(wordsWithNoCopies[index])) {
-      row.className = "row " + presentAnswerColor;
+      if (row.classList.contains(correctAnswerColor)) {
+        row.classList.remove(correctAnswerColor);
+      }
+      row.classList.add(presentAnswerColor);
       buttonColors.push({
         color: presentAnswerColor,
         word: row.textContent as string,
