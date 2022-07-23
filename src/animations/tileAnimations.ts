@@ -184,10 +184,6 @@ class tileAnimationsClass {
       : "present";
 
     const secretWord = globalData.secretWord;
-    console.log(secretWord, wordsPerRow);
-
-    console.log(secretWord[index] === wordsPerRow[index]);
-    console.log(secretWord[index], wordsPerRow[index]);
 
     if (secretWord[index] === wordsPerRow[index]) {
       if (row.classList.contains(presentAnswerColor)) {

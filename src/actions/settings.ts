@@ -20,8 +20,6 @@ export class SettingsActions extends SettingsGenerator {
     SettingsActions.darkModeFlag = !SettingsActions.darkModeFlag;
     globalData.darkMode = !globalData.darkMode;
     localStoragePanel.saveArrayOfWords();
-
-    console.log("click");
     callback();
   };
 
