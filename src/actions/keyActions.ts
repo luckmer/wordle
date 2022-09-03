@@ -105,6 +105,7 @@ class keyActionsClass extends tileAnimations {
 
     if (word === secretWord) {
       tileAnimation.rotateTile(globalData.rowIndex);
+      globalData.rowIndex++;
       localStoragePanel.saveArrayOfWords();
       globalData.gameOver = true;
       return;

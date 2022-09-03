@@ -117,23 +117,15 @@ class tileAnimationsClass {
     const buttonColors = globalData.guessRowsPanel
       .map(({ words }) => words)
       .map((wordArray) => {
-        return wordArray.map((word, index) => {
+        return wordArray.map((wordArray, index) => {
+          const word = Array.isArray(wordArray) ? wordArray[0] : wordArray;
           if (secretWord[index] === word[0]) {
-            return {
-              color: correctAnswerColor,
-              word: Array.isArray(word) ? word[0] : word,
-            };
+            return { color: correctAnswerColor, word };
           }
           if (secretWord.includes(word[0])) {
-            return {
-              color: presentAnswerColor,
-              word: Array.isArray(word) ? word[0] : word,
-            };
+            return { color: presentAnswerColor, word };
           }
-          return {
-            color: primaryAnswerColor,
-            word: Array.isArray(word) ? word[0] : word,
-          };
+          return { color: primaryAnswerColor, word };
         });
       })
       .reduce(
@@ -172,15 +164,13 @@ class tileAnimationsClass {
           ? this.BOTTOM_OF_GAME_GRID
           : globalData.rowIndex
       ];
-    const wordsPerRow = Array.from(rowCollection)
-      .map((el: HTMLElement) => el.childNodes[0].textContent)
-      .join("");
 
+    const wordsPerRow = globalData.guessRowsPanel[globalData.rowIndex].words
+      .map((word) => word[0])
+      .join("");
     if (wordsPerRow === "") return;
     const word = rowData.words.join("").toLocaleLowerCase();
-
     const wordsWithNoCopies = removeDuplicate(wordsPerRow);
-    const secretWord = globalData.secretWord;
 
     rowCollection.forEach((row, index) => {
       setTimeout(
@@ -191,7 +181,21 @@ class tileAnimationsClass {
       row.addEventListener(
         "transitionend",
         () => {
-          const wordsObj = { wordsPerRow, secretWord, index, row };
+          console.log(
+            globalData.guessRowsPanel[globalData.rowIndex - 1].words,
+            globalData.rowIndex
+          );
+          const wordsObj = {
+            wordsPerRow: globalData.guessRowsPanel[
+              globalData.rowIndex - 1
+            ].words
+              .map((word) => word[0])
+              .join(""),
+            secretWord: globalData.secretWord,
+            index,
+            row,
+          };
+          console.log(wordsObj);
           this.setColorByTile({ ...wordsObj, wordsWithNoCopies });
           this.removeFlipAnimation(row);
           this.setUndoFlip(row);
@@ -203,7 +207,7 @@ class tileAnimationsClass {
           }
           if (
             index === this.END_OF_ARRAY_INDEX &&
-            word === secretWord &&
+            word === globalData.secretWord &&
             globalData.gameOver
           )
             this.jumpTile(rowCollection);
@@ -236,23 +240,14 @@ class tileAnimationsClass {
     const secretWord = globalData.secretWord;
 
     if (secretWord[index] === wordsPerRow[index]) {
-      if (row.classList.contains(presentAnswerColor)) {
-        row.classList.remove(presentAnswerColor);
-      }
+      row.classList.remove(presentAnswerColor);
       row.classList.add(correctAnswerColor);
-
-      return;
-    }
-    if (secretWord.includes(wordsWithNoCopies[index])) {
-      if (row.classList.contains(correctAnswerColor)) {
-        row.classList.remove(correctAnswerColor);
-      }
+    } else if (secretWord.includes(wordsWithNoCopies[index])) {
+      row.classList.remove(correctAnswerColor);
       row.classList.add(presentAnswerColor);
-
-      return;
+    } else {
+      row.classList.add(primaryAnswerColor);
     }
-
-    row.classList.add(primaryAnswerColor);
   };
 
   setTileColor = (index: number, wordStatus?: boolean) => {
