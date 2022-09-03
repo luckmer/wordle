@@ -1,5 +1,13 @@
 import randomWord from "../generators/randomWord/randomWordGenerator";
-import { globalData } from "../globalData/globalData";
+import {
+  BLIND_CORRECT,
+  BLIND_PRESENT,
+  CORRECT,
+  globalData,
+  LIGHT_PRIMARY,
+  PRESENT,
+  PRIMARY,
+} from "../globalData/globalData";
 import localStoragePanel from "../localStorage/localStorage";
 import { timer } from "../utils";
 import restartButtonAnimation from "../animations/restartButtonAnimations";
@@ -51,13 +59,23 @@ export class RestartClass extends restartButtonAnimation {
   clearKeyBoardState = () => {
     const keyboard = document.querySelector(".row_container") as Element;
     const keyboardRows = keyboard?.querySelectorAll(".row");
+    const darkMode = globalData.darkMode;
+    const HighContrastModeFlag = globalData.HighContrastModeFlag;
+
     keyboardRows.forEach((keyBoardRow) => {
       const keyBoardButtons = keyBoardRow.querySelectorAll("button");
       keyBoardButtons.forEach((button, index) => {
         const clearArray = setInterval(() => {
-          if (button.className === "button action") {
-            button.className = "button action";
-          } else button.className = "button";
+          if (darkMode) {
+            button.classList.add("darkKeyCaps");
+          } else button.classList.remove(LIGHT_PRIMARY);
+          if (HighContrastModeFlag) {
+            button.classList.remove(BLIND_CORRECT);
+            button.classList.remove(BLIND_PRESENT);
+          }
+          button.classList.remove(PRESENT);
+          button.classList.remove(CORRECT);
+          button.classList.remove(PRIMARY);
           setTimeout(() => clearInterval(clearArray), timer(index, 2));
         });
       });
