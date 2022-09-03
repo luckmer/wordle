@@ -6,6 +6,7 @@ interface IObjectInterface {
   gameRowIndex: number;
   gameOver: boolean;
   secretWord: string;
+  buttonColors: Array<{ color: string; word: string }>;
   guessRowsPanel: {
     words: string[];
     acceptedWord: boolean;

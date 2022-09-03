@@ -16,7 +16,6 @@ interface IColorProps {
   secretWord: string;
   index: number;
   row: HTMLElement;
-  buttonColors: Array<{ color: string; word: string }>;
   wordsWithNoCopies: string[];
 }
 
@@ -97,10 +96,7 @@ class tileAnimationsClass {
     }, duration);
   };
 
-  setButtonColor = (
-    buttonsCollections: NodeListOf<HTMLButtonElement>,
-    buttonColors: { color: string; word: string }[]
-  ) => {
+  setButtonColor = (buttonsCollections: NodeListOf<HTMLButtonElement>) => {
     const { guessRowsPanel } = JSON.parse(
       localStorage.getItem("words") as string
     );
@@ -108,17 +104,59 @@ class tileAnimationsClass {
     const hasNoWords = matchTheSameElements(guessRowsPanel);
 
     if (hasNoWords) return;
+    const noCopies: { color: string; word: string }[] = [];
+    const secretWord = globalData.secretWord;
+    const correctAnswerColor = globalData.HighContrastModeFlag
+      ? BLIND_CORRECT
+      : CORRECT;
+    const presentAnswerColor = globalData.HighContrastModeFlag
+      ? BLIND_PRESENT
+      : PRESENT;
+    const primaryAnswerColor = globalData.darkMode ? PRIMARY : LIGHT_PRIMARY;
 
-    buttonsCollections.forEach((button) => {
-      const index = buttonColors.findIndex(
-        (el) => el.word === (button.textContent as string).toLocaleLowerCase()
+    const buttonColors = globalData.guessRowsPanel
+      .map(({ words }) => words)
+      .map((wordArray) => {
+        return wordArray.map((word, index) => {
+          if (secretWord[index] === word[0]) {
+            return {
+              color: correctAnswerColor,
+              word: Array.isArray(word) ? word[0] : word,
+            };
+          }
+          if (secretWord.includes(word[0])) {
+            return {
+              color: presentAnswerColor,
+              word: Array.isArray(word) ? word[0] : word,
+            };
+          }
+          return {
+            color: primaryAnswerColor,
+            word: Array.isArray(word) ? word[0] : word,
+          };
+        });
+      })
+      .reduce(
+        (array, isArray) =>
+          Array.isArray(array) ? array.concat(isArray) : array,
+        []
       );
 
-      if (index === this.INCORRECT_INDEX_RESULT) return;
+    for (let i = 0; i < buttonColors.length; i++) {
+      const el = buttonColors[i];
+      const index = noCopies.findIndex((word) => word.word === el.word);
+      if (index === -1) {
+        noCopies.push(el);
+      } else noCopies[index] = { ...noCopies[index], color: el.color };
+    }
 
-      const buttonColor = buttonColors[index];
+    buttonsCollections.forEach((button) => {
+      const index = noCopies.findIndex(
+        (el) => el.word === button.textContent?.toLocaleLowerCase()
+      );
+      if (index === -1) return;
       button.classList.value = "button";
-      button.classList.add(buttonColor.color);
+      button.classList.add(noCopies[index].color);
     });
   };
 
@@ -139,7 +177,6 @@ class tileAnimationsClass {
       .join("");
 
     if (wordsPerRow === "") return;
-    const buttonColors: Array<{ color: string; word: string }> = [];
     const word = rowData.words.join("").toLocaleLowerCase();
 
     const wordsWithNoCopies = removeDuplicate(wordsPerRow);
@@ -150,20 +187,17 @@ class tileAnimationsClass {
         () => this.setFlipAnimation(row),
         timer(index, this.TIME_DIVIDER)
       );
+
       row.addEventListener(
         "transitionend",
         () => {
           const wordsObj = { wordsPerRow, secretWord, index, row };
-          this.setColorByTile({ ...wordsObj, buttonColors, wordsWithNoCopies });
+          this.setColorByTile({ ...wordsObj, wordsWithNoCopies });
           this.removeFlipAnimation(row);
           this.setUndoFlip(row);
           if (index === this.END_OF_ARRAY_INDEX) {
             setTimeout(
-              () =>
-                this.setButtonColor(
-                  document.querySelectorAll("button"),
-                  buttonColors
-                ),
+              () => this.setButtonColor(document.querySelectorAll("button")),
               this.SHORT_ANIMATION_BLOCK
             );
           }
@@ -186,7 +220,7 @@ class tileAnimationsClass {
 
   setColorByTile = (props: IColorProps) => {
     const { wordsPerRow, index, row } = props;
-    const { buttonColors = [], wordsWithNoCopies } = props;
+    const { wordsWithNoCopies } = props;
     if (wordsPerRow.length < this.BOTTOM_OF_GAME_GRID) return;
 
     const correctAnswerColor = globalData.HighContrastModeFlag
@@ -206,10 +240,7 @@ class tileAnimationsClass {
         row.classList.remove(presentAnswerColor);
       }
       row.classList.add(correctAnswerColor);
-      buttonColors.push({
-        color: correctAnswerColor,
-        word: row.textContent as string,
-      });
+
       return;
     }
     if (secretWord.includes(wordsWithNoCopies[index])) {
@@ -217,18 +248,11 @@ class tileAnimationsClass {
         row.classList.remove(correctAnswerColor);
       }
       row.classList.add(presentAnswerColor);
-      buttonColors.push({
-        color: presentAnswerColor,
-        word: row.textContent as string,
-      });
+
       return;
     }
 
     row.classList.add(primaryAnswerColor);
-    buttonColors.push({
-      color: primaryAnswerColor,
-      word: row.textContent as string,
-    });
   };
 
   setTileColor = (index: number, wordStatus?: boolean) => {
@@ -243,13 +267,12 @@ class tileAnimationsClass {
     if (wordsPerRow === "") return;
     const wordsWithNoCopies = removeDuplicate(wordsPerRow);
     const secretWord = globalData.secretWord;
-    const buttonColors: Array<{ color: string; word: string }> = [];
 
     collectionsOfRow.forEach((row: HTMLElement, index: number) => {
       const wordsObj = { wordsPerRow, secretWord, index, row };
-      this.setColorByTile({ ...wordsObj, buttonColors, wordsWithNoCopies });
+      this.setColorByTile({ ...wordsObj, wordsWithNoCopies });
     });
-    this.setButtonColor(document.querySelectorAll("button"), buttonColors);
+    this.setButtonColor(document.querySelectorAll("button"));
   };
 }
 

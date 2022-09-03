@@ -39,7 +39,7 @@ export class globalData {
   public static secretWord = "";
   public static guessRowsPanel = guessRows;
   public static clearGame = false;
-
+  public static buttonColors: Array<{ color: string; word: string }> = [];
   public static keys = [
     ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"],
     ["spacer", "A", "S", "D", "F", "G", "H", "J", "K", "L", "spacer"],
