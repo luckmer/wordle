@@ -30,3 +30,5 @@ export const matchTheSameElements = <T extends { acceptedWord: boolean }>(
     .map(({ acceptedWord }: { acceptedWord: boolean }) => acceptedWord)
     .every((el: boolean) => el === false);
 };
+
+export const splitWordAndGetLastElement = (word: string) => word.split(" ")[1];

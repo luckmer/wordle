@@ -1,4 +1,15 @@
-import { globalData } from "../globalData/globalData";
+import {
+  BLACK_MODE,
+  BLIND_CORRECT,
+  BLIND_PRESENT,
+  CORRECT,
+  globalData,
+  LIGHT_PRIMARY,
+  PRESENT,
+  PRIMARY,
+  UNIQUE_WORDS,
+  UNIQUE_WORDS_ENUM,
+} from "../globalData/globalData";
 import {
   boardContainer,
   body,
@@ -10,47 +21,14 @@ import {
 } from "../imports";
 import localStoragePanel from "../localStorage/localStorage";
 import { SettingsActions } from "../actions/settings";
+import { splitWordAndGetLastElement } from "../utils";
 
 class SettingsClass extends SettingsActions {
-  clearCloseAnimation = (SettingsModal: Element) => {
+  settingsAnimationPanel = (SettingsModal: Element) => {
     if (!SettingsModal.className.split(" ").includes("settings_close")) return;
     SettingsModal.classList.remove("settings_open");
     SettingsModal.classList.remove("settings_close");
   };
-
-  addHighContrastMode(
-    lastElement: Element,
-    HighContrastSwitches: NodeListOf<Element>
-  ) {
-    this.controlHighContrastMode(
-      lastElement.childNodes as NodeListOf<Element>,
-      true,
-      (nodeChild) => nodeChild.classList.add("Blindcorrect")
-    );
-
-    this.controlHighContrastMode(HighContrastSwitches, false, (nodeChild) => {
-      nodeChild.classList.add("Blindcorrect");
-    });
-  }
-
-  removeHighContrastMode(
-    lastElement: Element,
-    HighContrastSwitches?: NodeListOf<Element>,
-    locklastElement?: boolean
-  ) {
-    if (!locklastElement) {
-      this.controlHighContrastMode(
-        lastElement.childNodes as NodeListOf<Element>,
-        true,
-        (nodeChild) => nodeChild.classList.remove("Blindcorrect")
-      );
-    }
-    if (HighContrastSwitches) {
-      this.controlHighContrastMode(HighContrastSwitches, false, (nodeChild) => {
-        nodeChild.classList.remove("Blindcorrect");
-      });
-    }
-  }
 
   setBoardMainPanel = (
     callback: (
@@ -71,12 +49,13 @@ class SettingsClass extends SettingsActions {
   };
 
   controlHighContrastMode = (
-    element: NodeListOf<Element>,
+    elements: NodeListOf<Element>,
     flag: boolean,
     callback: (element: Element) => void
   ) => {
-    element.forEach((element) => {
+    elements.forEach((element) => {
       const nodeElement = element as Element;
+
       if (flag) {
         if (
           nodeElement.classList &&
@@ -98,21 +77,82 @@ class SettingsClass extends SettingsActions {
     });
   };
 
+  deleteHighContrastVirtualKeyboard(nodeElement: Element) {
+    if (nodeElement.classList.contains(BLIND_CORRECT)) {
+      nodeElement.classList.remove(BLIND_CORRECT);
+      nodeElement.classList.add(CORRECT);
+    }
+    if (nodeElement.classList.contains(BLIND_PRESENT)) {
+      nodeElement.classList.remove(BLIND_PRESENT);
+      nodeElement.classList.add(PRESENT);
+    }
+  }
+
+  setHighContrastVirtualKeyboard(nodeElement: Element) {
+    if (nodeElement.classList.contains(CORRECT)) {
+      nodeElement.classList.remove(CORRECT);
+      nodeElement.classList.add(BLIND_CORRECT);
+    }
+    if (nodeElement.classList.contains(PRESENT)) {
+      nodeElement.classList.remove(PRESENT);
+      nodeElement.classList.add(BLIND_PRESENT);
+    }
+    nodeElement.classList.add("darkKeyCaps");
+  }
+
+  addHighContrastMode(
+    lastElement: Element,
+    HighContrastSwitches: NodeListOf<Element>
+  ) {
+    this.controlHighContrastMode(
+      lastElement.childNodes as NodeListOf<Element>,
+      true,
+      (nodeChild) => nodeChild.classList.add(BLIND_CORRECT)
+    );
+
+    this.controlHighContrastMode(HighContrastSwitches, false, (nodeChild) => {
+      const checkbox = (HighContrastSwitches[0] as Element)
+        .childNodes[1] as HTMLInputElement;
+
+      if (!checkbox.checked) {
+        HighContrastSwitches[0].classList.remove(BLIND_CORRECT);
+      } else {
+        nodeChild.classList.add(BLIND_CORRECT);
+      }
+    });
+  }
+
+  removeHighContrastMode(
+    lastElement: Element,
+    HighContrastSwitches?: NodeListOf<Element>,
+    locklastElement?: boolean
+  ) {
+    if (!locklastElement) {
+      this.controlHighContrastMode(
+        lastElement.childNodes as NodeListOf<Element>,
+        true,
+        (nodeChild) => nodeChild.classList.remove(BLIND_CORRECT)
+      );
+    }
+    if (HighContrastSwitches) {
+      this.controlHighContrastMode(HighContrastSwitches, false, (nodeChild) => {
+        nodeChild.classList.remove(BLIND_CORRECT);
+      });
+    }
+  }
+
   setDarkModeContrast = (darkMode: boolean) => {
-    this.setDarkModeForVirtualKeyboard();
+    this.setSpecificColorForVirtualKeyboard();
     if (darkMode) {
       this.setDarkModeForBoard();
-      body?.classList.add("blackMode");
-      SettingsModal?.classList.add("blackMode");
+      body?.classList.add(BLACK_MODE);
+      SettingsModal?.classList.add(BLACK_MODE);
       return;
     }
     this.deleteDarkModeForBoard();
-    body?.classList.remove("blackMode");
-    SettingsModal?.classList.remove("blackMode");
+    body?.classList.remove(BLACK_MODE);
+    SettingsModal?.classList.remove(BLACK_MODE);
   };
-
-  localStorageDarkModeLoader = () =>
-    this.setDarkModeContrast(globalData.darkMode);
 
   DarkModeSettings = () => {
     this.initiateCloseSettingsButton();
@@ -123,18 +163,35 @@ class SettingsClass extends SettingsActions {
     this.setDarkModeContrast(globalData.darkMode);
   };
 
-  setDarkModeForVirtualKeyboard = () => {
+  setSpecificColorForVirtualKeyboard = () => {
     const darkMode = globalData.darkMode;
+    const HighContrastMode = globalData.HighContrastModeFlag;
     const virtualKeyCaps = buttonsContainer.childNodes;
+
     virtualKeyCaps.forEach((keyCap) => {
       keyCap.childNodes.forEach((node) => {
+        const nodeElement = node as Element;
+
+        if (HighContrastMode) {
+          this.setHighContrastVirtualKeyboard(nodeElement);
+        } else this.deleteHighContrastVirtualKeyboard(nodeElement);
         if (darkMode) {
-          const nodeElement = node as Element;
+          const nodeType = splitWordAndGetLastElement(
+            nodeElement.classList.value
+          ) as UNIQUE_WORDS_ENUM;
+          if (UNIQUE_WORDS[nodeType]) return;
+          if (nodeElement.classList.contains(LIGHT_PRIMARY)) {
+            nodeElement.classList.remove(LIGHT_PRIMARY);
+            nodeElement.classList.add(PRIMARY);
+          }
           nodeElement.classList.add("darkKeyCaps");
-        } else {
-          const nodeElement = node as Element;
-          nodeElement.classList.remove("darkKeyCaps");
+          return;
         }
+        if (nodeElement.classList.contains(PRIMARY)) {
+          nodeElement.classList.remove(PRIMARY);
+          nodeElement.classList.add(LIGHT_PRIMARY);
+        }
+        nodeElement.classList.remove("darkKeyCaps");
       });
     });
   };
@@ -142,7 +199,8 @@ class SettingsClass extends SettingsActions {
   setDarkModeForBoard = () => {
     this.setBoardMainPanel((firstChild, textContent, childRow) => {
       if (textContent !== "") {
-        childRow.classList.remove("lightPrimary");
+        childRow.classList.remove(LIGHT_PRIMARY);
+        if (childRow.classList.length === 1) childRow.classList.add(PRIMARY);
         firstChild.classList.add("dark_mode_text_border");
       }
       firstChild.classList.add("dark_mode_border");
@@ -151,33 +209,33 @@ class SettingsClass extends SettingsActions {
 
   setHighContrastModeForBoard = () => {
     this.setBoardMainPanel(({}, _, childRow) => {
-      if (childRow.classList.contains("correct")) {
-        childRow.classList.add("Blindcorrect");
+      if (childRow.classList.contains(CORRECT)) {
+        childRow.classList.add(BLIND_CORRECT);
       }
-      if (childRow.classList.contains("present")) {
-        childRow.classList.add("blindPresent");
+      if (childRow.classList.contains(PRESENT)) {
+        childRow.classList.add(BLIND_PRESENT);
       }
     });
   };
 
   deleteHighContrastModeForBoard = () => {
     this.setBoardMainPanel(({}, _, childRow) => {
-      if (childRow.classList.contains("Blindcorrect")) {
-        childRow.classList.add("correct");
-        childRow.classList.remove("Blindcorrect");
+      if (childRow.classList.contains(BLIND_CORRECT)) {
+        childRow.classList.add(CORRECT);
+        childRow.classList.remove(BLIND_CORRECT);
       }
 
-      if (childRow.classList.contains("blindPresent")) {
-        childRow.classList.add("present");
-        childRow.classList.remove("blindPresent");
+      if (childRow.classList.contains(BLIND_PRESENT)) {
+        childRow.classList.add(PRESENT);
+        childRow.classList.remove(BLIND_PRESENT);
       }
     });
   };
 
   deleteDarkModeForBoard = () => {
     this.setBoardMainPanel((firstChild, textContent, childRow) => {
-      if (textContent !== "" && childRow.classList.contains("primary")) {
-        childRow.classList.add("lightPrimary");
+      if (textContent !== "" && childRow.classList.contains(PRIMARY)) {
+        childRow.classList.add(LIGHT_PRIMARY);
       }
       firstChild.classList.remove("dark_mode_border");
     });
@@ -186,41 +244,37 @@ class SettingsClass extends SettingsActions {
   initiateDarkThemeBackground = (index: number) => {
     const HighContrastSwitches = document.querySelectorAll(".mdl-switch");
     const lastElement = HighContrastSwitches[index];
-
-    this.controlHighContrastMode(
-      lastElement.childNodes as NodeListOf<Element>,
-      true,
-      (nodeChild) => {
+    const elements = lastElement.childNodes as NodeListOf<Element>;
+    this.controlHighContrastMode(elements, true, (nodeChild) => {
+      if ((elements[1] as any).checked === false) {
+        nodeChild.classList.remove(BLIND_CORRECT);
+      } else {
         globalData.darkMode && globalData.HighContrastModeFlag
-          ? nodeChild.classList.add("Blindcorrect")
-          : nodeChild.classList.remove("Blindcorrect");
+          ? nodeChild.classList.add(BLIND_CORRECT)
+          : nodeChild.classList.remove(BLIND_CORRECT);
       }
-    );
+    });
   };
 
   initiateHighContrastModeColor = () => {
+    this.setSpecificColorForVirtualKeyboard();
     const HighContrastSwitches = document.querySelectorAll(".mdl-switch");
     const lastElement = HighContrastSwitches[HighContrastSwitches.length - 1];
-    this.removeHighContrastMode(lastElement, HighContrastSwitches);
-
     if (globalData.HighContrastModeFlag) {
       const HighContrastSwitches = document.querySelectorAll(".mdl-switch");
       const lastElement = HighContrastSwitches[HighContrastSwitches.length - 1];
       this.addHighContrastMode(lastElement, HighContrastSwitches);
       this.setHighContrastModeForBoard();
-
-      if (!globalData.darkMode) {
-        const darkModeElement = HighContrastSwitches[0];
-        this.removeHighContrastMode(darkModeElement);
-        this.deleteHighContrastModeForBoard();
-      }
-    } else this.deleteHighContrastModeForBoard();
+    } else {
+      const darkModeElement = HighContrastSwitches[0];
+      this.removeHighContrastMode(lastElement);
+      this.removeHighContrastMode(darkModeElement);
+      this.deleteHighContrastModeForBoard();
+    }
   };
 
-  HighContrastModeSettings = () => this.initiateHighContrastModeColor();
-
   initiateSettings = () => {
-    this.localStorageDarkModeLoader();
+    this.setDarkModeContrast(globalData.darkMode);
     this.initiateSettingsModal();
     this.initiateCloseSettingsButton();
     this.initiateOpenSettingsButton();
@@ -237,7 +291,7 @@ class SettingsClass extends SettingsActions {
       this.handleCloseSettings((modal) => {
         modal?.addEventListener(
           "animationend",
-          () => this.clearCloseAnimation(modal),
+          () => this.settingsAnimationPanel(modal),
           false
         );
       });
@@ -253,7 +307,7 @@ class SettingsClass extends SettingsActions {
 
     HighContrastMode!.addEventListener("change", () =>
       this.handleSetHighContrastMode(() => {
-        this.HighContrastModeSettings();
+        this.initiateHighContrastModeColor();
       })
     );
   };

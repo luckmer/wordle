@@ -1,6 +1,14 @@
-import { globalData } from "../globalData/globalData";
+import {
+  BLIND_CORRECT,
+  BLIND_PRESENT,
+  CORRECT,
+  globalData,
+  LIGHT_PRIMARY,
+  PRESENT,
+  PRIMARY,
+} from "../globalData/globalData";
 import { gameDictionary } from "../constants/notifications";
-import { buttonsCollections, toaster } from "../imports";
+import { toaster } from "../imports";
 import { matchTheSameElements, removeDuplicate, timer } from "../utils";
 
 interface IColorProps {
@@ -105,7 +113,9 @@ class tileAnimationsClass {
       const index = buttonColors.findIndex(
         (el) => el.word === (button.textContent as string).toLocaleLowerCase()
       );
+
       if (index === this.INCORRECT_INDEX_RESULT) return;
+
       const buttonColor = buttonColors[index];
       button.classList.value = "button";
       button.classList.add(buttonColor.color);
@@ -149,7 +159,11 @@ class tileAnimationsClass {
           this.setUndoFlip(row);
           if (index === this.END_OF_ARRAY_INDEX) {
             setTimeout(
-              () => this.setButtonColor(buttonsCollections, buttonColors),
+              () =>
+                this.setButtonColor(
+                  document.querySelectorAll("button"),
+                  buttonColors
+                ),
               this.SHORT_ANIMATION_BLOCK
             );
           }
@@ -176,12 +190,14 @@ class tileAnimationsClass {
     if (wordsPerRow.length < this.BOTTOM_OF_GAME_GRID) return;
 
     const correctAnswerColor = globalData.HighContrastModeFlag
-      ? "Blindcorrect"
-      : "correct";
+      ? BLIND_CORRECT
+      : CORRECT;
 
     const presentAnswerColor = globalData.HighContrastModeFlag
-      ? "blindPresent"
-      : "present";
+      ? BLIND_PRESENT
+      : PRESENT;
+
+    const primaryAnswerColor = globalData.darkMode ? PRIMARY : LIGHT_PRIMARY;
 
     const secretWord = globalData.secretWord;
 
@@ -208,8 +224,11 @@ class tileAnimationsClass {
       return;
     }
 
-    row.classList.add("primary");
-    buttonColors.push({ color: "primary", word: row.textContent as string });
+    row.classList.add(primaryAnswerColor);
+    buttonColors.push({
+      color: primaryAnswerColor,
+      word: row.textContent as string,
+    });
   };
 
   setTileColor = (index: number, wordStatus?: boolean) => {
@@ -230,7 +249,7 @@ class tileAnimationsClass {
       const wordsObj = { wordsPerRow, secretWord, index, row };
       this.setColorByTile({ ...wordsObj, buttonColors, wordsWithNoCopies });
     });
-    this.setButtonColor(buttonsCollections, buttonColors);
+    this.setButtonColor(document.querySelectorAll("button"), buttonColors);
   };
 }
 

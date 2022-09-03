@@ -19,17 +19,17 @@
 }
 
 .primary {
-  background: #3a3a3c;
+  background: #3a3a3c !important;
   color: #fff !important;
 }
 
 .primary p {
-  border: 2px solid #3a3a3c;
+  border: 2px solid #3a3a3c !important;
   color: #fff !important;
 }
 
 .lightPrimary {
-  background: #787c7e;
+  background: #787c7e !important;
   color: #fff;
 }
 

@@ -1,4 +1,12 @@
-import { globalData } from "../globalData/globalData";
+import {
+  BLIND_CORRECT,
+  BLIND_PRESENT,
+  CORRECT,
+  globalData,
+  LIGHT_PRIMARY,
+  PRESENT,
+  PRIMARY,
+} from "../globalData/globalData";
 import { timer } from "../utils";
 
 class restartButtonAnimation {
@@ -19,11 +27,11 @@ class restartButtonAnimation {
 
   validateTileColor = (rowTarget: Element) => {
     return (
-      !rowTarget.classList.contains("correct") &&
-      !rowTarget.classList.contains("present") &&
-      !rowTarget.classList.contains("primary") &&
-      !rowTarget.classList.contains("Blindcorrect") &&
-      !rowTarget.classList.contains("blindPresent")
+      !rowTarget.classList.contains(CORRECT) &&
+      !rowTarget.classList.contains(PRESENT) &&
+      !rowTarget.classList.contains(PRIMARY) &&
+      !rowTarget.classList.contains(BLIND_CORRECT) &&
+      !rowTarget.classList.contains(BLIND_PRESENT)
     );
   };
 
@@ -38,11 +46,12 @@ class restartButtonAnimation {
 
   clearPrimaryColors = (target: Element) => {
     target.classList.add("whiteBoard");
-    target.classList.remove("correct");
-    target.classList.remove("present");
-    target.classList.remove("primary");
-    target.classList.remove("Blindcorrect");
-    target.classList.remove("blindPresent");
+    target.classList.remove(CORRECT);
+    target.classList.remove(PRESENT);
+    target.classList.remove(PRIMARY);
+    target.classList.remove(BLIND_CORRECT);
+    target.classList.remove(BLIND_PRESENT);
+    target.classList.remove(LIGHT_PRIMARY);
   };
 
   clearTileContent = (target: Element) => {
